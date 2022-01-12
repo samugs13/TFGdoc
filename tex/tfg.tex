@@ -1,0 +1,66 @@
+\documentclass[a4paper, 12pt]{report} % Formato de plantilla
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=2cm, top=2cm, includefoot]{geometry}
+\usepackage{graphicx} % Para la insercion de imagenes
+\usepackage[table,xcdraw]{xcolor} % Para la deteccion de colores
+\usepackage[most]{tcolorbox} % Para la insercion de cuadros
+\usepackage{fancyhdr} % Para definir el estilo de la página
+\usepackage[hidelinks]{hyperref} % Para gestionar hipervínculos
+\usepackage{parskip} % Para arreglar la tabulación en el documento
+
+% Declaracion de colores
+\definecolor{color1}{HTML}{5E8BB4}
+
+% Declaracion de variables
+\newcommand{\logoportadaU}{../imgs/logos/ETSIT1.png}
+\newcommand{\logoportadaD}{../imgs/logos/upm2.png}
+\newcommand{\logopaginaD}{../imgs/logos/ETSIT2.png}
+\newcommand{\titulo}{Despliegue automatizado de escenarios de red virtualizados}
+\newcommand{\fecha}{Junio 2022}
+
+% Adicionales
+\addto\captionsspanish{\renewcommand{\contentsname}{Índice}} % Cambio de formato del índice
+\setlength{\headheight}{46.5423pt} % Definimos el margen de la barra horizontal de la cabecera
+\pagestyle{fancy} % Definimos estilo fancy
+\fancyhf{} % "Limpiamos" lo que trae el estilo fancy por defecto
+\rhead{\includegraphics[width=1.3cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
+\lhead{\leftmark} % Sección en cabecera izquierda
+\cfoot{\thepage} % Número de página en el centro del pie de página
+\renewcommand{\headrulewidth}{3pt} % Grosor de la barra de la cabecera
+\renewcommand{\headrule}{\hbox to\headwidth{\color{color1}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
+
+
+% Comienzo del documento
+\begin{document}
+        % Portada
+        \begin{titlepage}
+        \centering
+        \includegraphics[width=0.6\textwidth, height=9cm, keepaspectratio]{\logoportadaU}\par\vspace{1cm}
+        \vfill
+        {\scshape\LARGE \textbf{Trabajo de fin de grado}\par}
+        \vspace{0.2cm}
+        {\Huge\bfseries\textcolor{color1}{\titulo}\par\vspace{1cm}}
+        \vfill
+        \includegraphics[width=0.6\textwidth, height=5cm, keepaspectratio]{\logoportadaD}\par\vspace{1cm}
+        \vfill
+        \begin{tcolorbox}[colback=color1!5!white,colframe=color1!75!color1]
+        \centering
+                {\large Samuel García Sánchez}
+        \end{tcolorbox}
+        \vfill
+        \fecha\par
+        \vfill
+        \end{titlepage}
+        % ----------------------------------------------------------------------------------
+        \clearpage
+        % TOC
+        \tableofcontents
+        %-----------------------------------------------------------------------------------
+        \clearpage
+        % Sección Alumno
+        \chapter{Datos del alumno}
+	\textbf{Nombre:} Tecnilógica Ecosistemas SAU \href{https://www.accenture.com/es-es/company-tecnilogica-accenture}{\textbf{\color{blue}Accenture}} \par
+
+\end{document}
