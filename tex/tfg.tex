@@ -9,6 +9,7 @@
 \usepackage{fancyhdr} % Para definir el estilo de la página
 \usepackage[hidelinks]{hyperref} % Para gestionar hipervínculos
 \usepackage{parskip} % Para arreglar la tabulación en el documento
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex} % Para bibliografía 
 
 % Declaracion de colores
 \definecolor{color1}{HTML}{5E8BB4}
@@ -17,50 +18,37 @@
 \newcommand{\logoportadaU}{../imgs/logos/ETSIT1.png}
 \newcommand{\logoportadaD}{../imgs/logos/upm2.png}
 \newcommand{\logopaginaD}{../imgs/logos/ETSIT2.png}
+\newcommand{\grado}{Grado en Ingeniería de Tecnologías y Servicios de Telecomunicación}
 \newcommand{\titulo}{Despliegue automatizado de escenarios de red virtualizados}
 \newcommand{\fecha}{Junio 2022}
+\newcommand{\autor}{Samuel García Sánchez}
+\newcommand{\tutor}{Mario Sanz Rodrigo}
 
 % Adicionales
 \addto\captionsspanish{\renewcommand{\contentsname}{Índice}} % Cambio de formato del índice
 \setlength{\headheight}{46.5423pt} % Definimos el margen de la barra horizontal de la cabecera
 \pagestyle{fancy} % Definimos estilo fancy
 \fancyhf{} % "Limpiamos" lo que trae el estilo fancy por defecto
-\rhead{\includegraphics[width=1.3cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
-\lhead{\leftmark} % Sección en cabecera izquierda
+\rhead{\includegraphics[width=1.5cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
+\lhead[\leftmark]{\rightmark} % Cabecera izquierda: capítulo en páginas pares y sección en impares
 \cfoot{\thepage} % Número de página en el centro del pie de página
 \renewcommand{\headrulewidth}{3pt} % Grosor de la barra de la cabecera
 \renewcommand{\headrule}{\hbox to\headwidth{\color{color1}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
-
+\bibliography{docs/refs} % Archivo .bib 
 
 % Comienzo del documento
 \begin{document}
-        % Portada
-        \begin{titlepage}
-        \centering
-        \includegraphics[width=0.6\textwidth, height=9cm, keepaspectratio]{\logoportadaU}\par\vspace{1cm}
-        \vfill
-        {\scshape\LARGE \textbf{Trabajo de fin de grado}\par}
-        \vspace{0.2cm}
-        {\Huge\bfseries\textcolor{color1}{\titulo}\par\vspace{1cm}}
-        \vfill
-        \includegraphics[width=0.6\textwidth, height=5cm, keepaspectratio]{\logoportadaD}\par\vspace{1cm}
-        \vfill
-        \begin{tcolorbox}[colback=color1!5!white,colframe=color1!75!color1]
-        \centering
-                {\large Samuel García Sánchez}
-        \end{tcolorbox}
-        \vfill
-        \fecha\par
-        \vfill
-        \end{titlepage}
-        % ----------------------------------------------------------------------------------
-        \clearpage
+	\input{tex/c0_portada}
+	% ----------------------------------------------------------------------------------
         % TOC
         \tableofcontents
         %-----------------------------------------------------------------------------------
-        \clearpage
         % Sección Alumno
-        \chapter{Datos del alumno}
-	\textbf{Nombre:} Tecnilógica Ecosistemas SAU \href{https://www.accenture.com/es-es/company-tecnilogica-accenture}{\textbf{\color{blue}Accenture}} \par
-
+        \chapter{Resumen}
+	\textbf{Nombre:} Tecnilógica Ecosistemas SAU \href{https://www.accenture.com/es-es/company-tecnilogica-accenture}{\textbf{\color{blue}Accenture}}
+	\par a~\cite{buffett84} Hola ~\cite{watson53}
+	\clearpage
+	%----------------------------------------------------------------------------------
+	% Bibliografía
+	\printbibliography[heading=bibintoc]
 \end{document}
