@@ -27,10 +27,11 @@
 % Adicionales
 \addto\captionsspanish{\renewcommand{\contentsname}{Índice}} % Cambio de formato del índice
 \setlength{\headheight}{46.5423pt} % Definimos el margen de la barra horizontal de la cabecera
+\addtolength{\topmargin}{-8.78987pt}
 \pagestyle{fancy} % Definimos estilo fancy
 \fancyhf{} % "Limpiamos" lo que trae el estilo fancy por defecto
-\rhead{\includegraphics[width=1.5cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
-\lhead[\leftmark]{\rightmark} % Cabecera izquierda: capítulo en páginas pares y sección en impares
+\rhead{\includegraphics[width=1.3cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
+\lhead{\leftmark} % Cabecera izquierda: capítulo en páginas pares y sección en impares
 \cfoot{\thepage} % Número de página en el centro del pie de página
 \renewcommand{\headrulewidth}{3pt} % Grosor de la barra de la cabecera
 \renewcommand{\headrule}{\hbox to\headwidth{\color{color1}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
@@ -39,15 +40,17 @@
 % Comienzo del documento
 \begin{document}
 	\input{tex/c0_portada}
+	%-----------------------------------------------------------------------------------
+	%Resumen
+	\input{tex/c1_intro}
 	% ----------------------------------------------------------------------------------
         % TOC
         \tableofcontents
         %-----------------------------------------------------------------------------------
-        % Sección Alumno
-        \chapter{Resumen}
+    	% Sección Alumno
+        \chapter{Estado del Arte}
 	\textbf{Nombre:} Tecnilógica Ecosistemas SAU \href{https://www.accenture.com/es-es/company-tecnilogica-accenture}{\textbf{\color{blue}Accenture}}
 	\par a~\cite{buffett84} Hola ~\cite{watson53}
-	\clearpage
 	%----------------------------------------------------------------------------------
 	% Bibliografía
 	\printbibliography[heading=bibintoc]
