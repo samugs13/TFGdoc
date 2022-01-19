@@ -1,41 +1,6 @@
 \documentclass[a4paper, 12pt]{report} % Formato de plantilla
 
-\usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
-\usepackage[margin=2cm, top=2cm, includefoot]{geometry}
-\usepackage{graphicx} % Para la insercion de imagenes
-\usepackage[table,xcdraw]{xcolor} % Para la deteccion de colores
-\usepackage[most]{tcolorbox} % Para la insercion de cuadros
-\usepackage{fancyhdr} % Para definir el estilo de la página
-\usepackage[hidelinks]{hyperref} % Para gestionar hipervínculos
-\usepackage{parskip} % Para arreglar la tabulación en el documento
-\usepackage[backend=biber,style=numeric,sorting=none]{biblatex} % Para bibliografía 
-
-% Declaracion de colores
-\definecolor{color1}{HTML}{5E8BB4}
-
-% Declaracion de variables
-\newcommand{\logoportadaU}{../imgs/logos/ETSIT1.png}
-\newcommand{\logoportadaD}{../imgs/logos/upm2.png}
-\newcommand{\logopaginaD}{../imgs/logos/ETSIT2.png}
-\newcommand{\grado}{Grado en Ingeniería de Tecnologías y Servicios de Telecomunicación}
-\newcommand{\titulo}{Despliegue automatizado de escenarios de red virtualizados}
-\newcommand{\fecha}{Junio 2022}
-\newcommand{\autor}{Samuel García Sánchez}
-\newcommand{\tutor}{Mario Sanz Rodrigo}
-
-% Adicionales
-\addto\captionsspanish{\renewcommand{\contentsname}{Índice}} % Cambio de formato del índice
-\setlength{\headheight}{46.5423pt} % Definimos el margen de la barra horizontal de la cabecera
-\addtolength{\topmargin}{-8.78987pt}
-\pagestyle{fancy} % Definimos estilo fancy
-\fancyhf{} % "Limpiamos" lo que trae el estilo fancy por defecto
-\rhead{\includegraphics[width=1.3cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
-\lhead{\leftmark} % Cabecera izquierda: capítulo en páginas pares y sección en impares
-\cfoot{\thepage} % Número de página en el centro del pie de página
-\renewcommand{\headrulewidth}{3pt} % Grosor de la barra de la cabecera
-\renewcommand{\headrule}{\hbox to\headwidth{\color{color1}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
-\bibliography{docs/refs} % Archivo .bib 
+\usepackage{tex/estilo}
 
 % Comienzo del documento
 \begin{document}
