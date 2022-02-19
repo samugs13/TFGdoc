@@ -9,28 +9,33 @@
 \usepackage{parskip} % Para arreglar la tabulación en el documento
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex} % Para bibliografía 
 
+% For cover
+\usepackage{chngpage}
+\usepackage{pagecolor}% With option pagecolor={somecolor or none}
+\usepackage{afterpage}
+
 % Declaracion de colores
-\definecolor{color1}{HTML}{5E8BB4}
+\definecolor{orange}{HTML}{ff6600}
 
 % Declaracion de variables
-\newcommand{\logoportadaU}{../imgs/logos/ETSIT1.png}
-\newcommand{\logoportadaD}{../imgs/logos/upm2.png}
+\newcommand{\logoportadaU}{../imgs/logos/etsit.png}
+\newcommand{\logoportadaD}{../imgs/logos/etsit_blanco.png}
 \newcommand{\logopaginaD}{../imgs/logos/ETSIT2.png}
-\newcommand{\grado}{Grado en Ingeniería de Tecnologías y Servicios de Telecomunicación}
-\newcommand{\titulo}{Despliegue automatizado de escenarios de red virtualizados}
-\newcommand{\fecha}{Junio 2022}
-\newcommand{\autor}{Samuel García Sánchez}
-\newcommand{\tutor}{Mario Sanz Rodrigo}
+\newcommand{\grado}{GRADO EN INGENIERÍA EN TECNOLOGÍAS Y SERVICIOS DE TELECOMUNICACIÓN}
+\newcommand{\titulo}{DESPLIEGUE AUTOMATIZADO DE ESCENARIOS DE RED VIRTUALIZADOS}
+\newcommand{\fecha}{2022}
+\newcommand{\autor}{SAMUEL GARCÍA SÁNCHEZ}
+\newcommand{\tutor}{MARIO SANZ RODRIGO}
 
 % Adicionales
 \addto\captionsspanish{\renewcommand{\contentsname}{Índice}} % Cambio de formato del índice
 \setlength{\headheight}{49.0423pt} % Definimos el margen de la barra horizontal de la cabecera
 \pagestyle{fancy} % Definimos estilo fancy
 \fancyhf{} % "Limpiamos" lo que trae el estilo fancy por defecto
-\rhead{\includegraphics[width=1.1cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
+\rhead{\includegraphics[width=1.3cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
 \lhead{\leftmark} % Cabecera izquierda: capítulo en páginas pares y sección en impares
 \cfoot{\thepage} % Número de página en el centro del pie de página
 \renewcommand{\headrulewidth}{3pt} % Grosor de la barra de la cabecera
-\renewcommand{\headrule}{\hbox to\headwidth{\color{color1}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
+\renewcommand{\headrule}{\hbox to\headwidth{\color{orange}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
 \bibliography{docs/refs} % Archivo .bib 
 
