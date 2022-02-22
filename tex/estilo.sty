@@ -1,6 +1,6 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
-\usepackage[margin=2cm, top=2cm, includefoot]{geometry}
+\usepackage[margin=2.5cm, includefoot]{geometry}
 \usepackage{graphicx} % Para la insercion de imagenes
 \usepackage[table,xcdraw]{xcolor} % Para la deteccion de colores
 \usepackage[most]{tcolorbox} % Para la insercion de cuadros
@@ -9,7 +9,7 @@
 \usepackage{parskip} % Para arreglar la tabulación en el documento
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex} % Para bibliografía 
 
-% For cover
+% Para la portada
 \usepackage{chngpage}
 \usepackage{pagecolor}% With option pagecolor={somecolor or none}
 \usepackage{afterpage}
@@ -27,15 +27,23 @@
 \newcommand{\autor}{SAMUEL GARCÍA SÁNCHEZ}
 \newcommand{\tutor}{MARIO SANZ RODRIGO}
 
+% Página en blanco 
+\newcommand\blankpage{
+    \null
+    \thispagestyle{empty}
+    \addtocounter{page}{-1}
+    \newpage}
+
 % Adicionales
-\addto\captionsspanish{\renewcommand{\contentsname}{Índice}} % Cambio de formato del índice
-\setlength{\headheight}{49.0423pt} % Definimos el margen de la barra horizontal de la cabecera
+\addto\captionsspanish{\renewcommand{\contentsname}{Índice general}} % Cambio de formato del índice
+\setlength{\headheight}{74.3pt} 
+\setlength{\textheight}{540pt} 
 \pagestyle{fancy} % Definimos estilo fancy
 \fancyhf{} % "Limpiamos" lo que trae el estilo fancy por defecto
-\rhead{\includegraphics[width=1.3cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
-\lhead{\leftmark} % Cabecera izquierda: capítulo en páginas pares y sección en impares
+\rhead{\includegraphics[width=1.1cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
+%\lhead{\small \leftmark} % Cabecera izquierda: capítulo en páginas pares y sección en impares
+\lhead[\small \leftmark]{\small \rightmark}
 \cfoot{\thepage} % Número de página en el centro del pie de página
-\renewcommand{\headrulewidth}{3pt} % Grosor de la barra de la cabecera
+\renewcommand{\headrulewidth}{2pt} % Grosor de la barra de la cabecera
 \renewcommand{\headrule}{\hbox to\headwidth{\color{orange}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
 \bibliography{docs/refs} % Archivo .bib 
-

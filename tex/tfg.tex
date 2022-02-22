@@ -4,21 +4,29 @@
 
 % Comienzo del documento
 \begin{document}
-	\input{tex/c0_portada}
+	
 	%-----------------------------------------------------------------------------------
-	%Resumen
-	\input{tex/c1_intro}
+	% Portada 
+	\input{tex/c0-1_portada}
+	\input{tex/c0-2_portada-tutor}
+	%-----------------------------------------------------------------------------------
+	% Resumen
+	\input{tex/c0-3_resumen}
+	% Abstract 
+	\input{tex/c0-4_abstract}
 	% ----------------------------------------------------------------------------------
-        % TOC
-        \tableofcontents
-	\addcontentsline{toc}{chapter}{Resumen}
-        %-----------------------------------------------------------------------------------
-    	% Contenido
+	% TOC
+	\tableofcontents
+	% Figuras
+	\listoffigures
+	\addcontentsline{toc}{chapter}{\listfigurename}
+	%-----------------------------------------------------------------------------------
+	% Contenido
+	\input{tex/c1_intro}
 	\input{tex/c2_estado}
 	%----------------------------------------------------------------------------------
-	% Figuras
-	\addcontentsline{toc}{chapter}{\listfigurename}
-	\listoffigures
 	% Bibliografía
 	\printbibliography[heading=bibintoc]
+	%----------------------------------------------------------------------------------
+
 \end{document}
