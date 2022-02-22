@@ -3,6 +3,17 @@
 \thispagestyle{empty}
 \addcontentsline{toc}{chapter}{Abstract}
 \section*{Abstract}
-Ejemplo abstract
+Ejemplo de código en bash:
+
+\begin{lstlisting}[language=Bash, caption=Bash example]
+	#!/bin/bash
+	#Enumeracion de los puertos abiertos de una maquina
+		for port in $(seq 1 65535); do 
+			timeout 1 bash -c "echo > /dev/tcp/10.10.10.52/$port" > /dev/null 2>&1 && echo "$port/tcp" &
+	done; wait
+\end{lstlisting}
+
+Referencia a la figura \ref{fig:hipervtypes} de la página \pageref{fig:hipervtypes} 
+
 \afterpage{\blankpage}
 

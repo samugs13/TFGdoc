@@ -4,14 +4,16 @@
 \usepackage{graphicx} % Para la insercion de imagenes
 \usepackage[table,xcdraw]{xcolor} % Para la deteccion de colores
 \usepackage[most]{tcolorbox} % Para la insercion de cuadros
-\usepackage{fancyhdr} % Para definir el estilo de la página
-\usepackage[hidelinks]{hyperref} % Para gestionar hipervínculos
+\usepackage{fancyhdr} % Para definir el estilo de la paginas
+\usepackage[hidelinks]{hyperref} % Para gestionar hipervinculos (hidelinks esconde el recuadro rojo)
 \usepackage{parskip} % Para arreglar la tabulación en el documento
-\usepackage[backend=biber,style=numeric,sorting=none]{biblatex} % Para bibliografía 
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex} % Para bibliografia 
+\usepackage[figurename=Figura]{caption} % Para cambiar el nombre del caption de las fotos
+\usepackage{listings} % Para la insercion de codigo en el documento (hace uso de xcolor)
 
 % Para la portada
 \usepackage{chngpage}
-\usepackage{pagecolor}% With option pagecolor={somecolor or none}
+\usepackage{pagecolor} % With option pagecolor={somecolor or none}
 \usepackage{afterpage}
 
 % Declaracion de colores
@@ -20,7 +22,7 @@
 % Declaracion de variables
 \newcommand{\logoportadaU}{../imgs/logos/etsit.png}
 \newcommand{\logoportadaD}{../imgs/logos/etsit_blanco.png}
-\newcommand{\logopaginaD}{../imgs/logos/ETSIT2.png}
+\newcommand{\logopaginas}{../imgs/logos/ETSIT2.png}
 \newcommand{\grado}{GRADO EN INGENIERÍA EN TECNOLOGÍAS Y SERVICIOS DE TELECOMUNICACIÓN}
 \newcommand{\titulo}{DESPLIEGUE AUTOMATIZADO DE ESCENARIOS DE RED VIRTUALIZADOS}
 \newcommand{\fecha}{2022}
@@ -34,16 +36,44 @@
     \addtocounter{page}{-1}
     \newpage}
 
-% Adicionales
-\addto\captionsspanish{\renewcommand{\contentsname}{Índice general}} % Cambio de formato del índice
+% Formato de codigo
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% Estilo y formato del documento 
+\addto\captionsspanish{\renewcommand{\contentsname}{Índice general}} % Cambio de formato del indice
 \setlength{\headheight}{74.3pt} 
-\setlength{\textheight}{540pt} 
+\setlength{\textheight}{545pt} 
 \pagestyle{fancy} % Definimos estilo fancy
 \fancyhf{} % "Limpiamos" lo que trae el estilo fancy por defecto
-\rhead{\includegraphics[width=1.1cm, keepaspectratio]{\logopaginaD}} % Foto de cabecera derecha
-%\lhead{\small \leftmark} % Cabecera izquierda: capítulo en páginas pares y sección en impares
-\lhead[\small \leftmark]{\small \rightmark}
-\cfoot{\thepage} % Número de página en el centro del pie de página
+\fancyhead[LE,RO]{\includegraphics[width=1.1cm, keepaspectratio]{\logopaginas}} % Foto de cabecera en las paginas del contenido
+\fancyhead[LO]{\small \leftmark} % Capítulo en cabecera izquierda de paginas impares
+\fancyhead[RE]{\small \rightmark} % Sección en cabecera derecha de paginas pares
+\cfoot{\thepage} % Número de página en el centro del pie de pagina
 \renewcommand{\headrulewidth}{2pt} % Grosor de la barra de la cabecera
 \renewcommand{\headrule}{\hbox to\headwidth{\color{orange}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
+\renewcommand{\lstlistingname}{Código} % Para cambiar el caption de los codigos 
 \bibliography{docs/refs} % Archivo .bib 

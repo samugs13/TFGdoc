@@ -7,8 +7,7 @@ Gracias a esta tecnología, es posible contar con varios ordenadores virtuales e
 
 En función del sistema a simular, podemos encontrar diferentes categorías, un ejemplo es la virtualización de red, que consiste en crear redes virtuales sobre redes físicas o reproducir completamente redes físicas en software. Otro ejemplo sería la virtualización de almacenamiento, que combina varios dispositivos de almacenamiento en red, con la apariencia de una única unidad o dispositivo de almacenamiento, accesible por varios usuarios. Podríamos enumerar más tipos de virtualización, pero en lo que a este trabajo respecta vamos a centrarnos en la virtualización de software, que separa las aplicaciones del hardware y el sistema operativo, y en la que distinguimos dos subtipos: virtualización mediante hipervisor y virtualización en contenedores.
 
-
-\subsection{Virtualización con hipervisor}
+\subsection{Virtualización mediante hipervisor}
 Una máquina virtual es un software que ejecuta programas o procesos como si fuera la máquina física. Es decir, se abstrae el hardware y se representa con una capa de software que proporciona una interfaz igual que el hardware, de forma que sobre ella podemos instalar uno o varios sistema operativos invitados o guests distintos. Esta capa de software también se encarga de repartir y aislar los recursos del host entre las VM, de manera que el host queda protegido si falla una VM, y las VM estén protegidas entre ellas. Pues bien, cuando hablamos de esta capa de software estamos hablando de lo que se conoce como hipervisor. 
 
 Como ya se ha mencionado, un hipervisor es una capa intermedia de software que permite al ordenador anfitrión prestar soporte a varias máquinas virtuales mediante el uso compartido de sus recursos. Cuando se ejecuta una instrucción en el SO invitado, el hipervisor la coje y la ejecuta en el SO anfitrión. En este proceso, el SO no diferencia entre ejecutar procesos en la máquina virtual o en la física, lo que representa plenamente el concepto de virtualización.
@@ -16,6 +15,13 @@ Como ya se ha mencionado, un hipervisor es una capa intermedia de software que p
 Dentro de los hipervisores, podemos distinguir dos tipos. El primero es el Tipo 1, conocido también como hipervisor nativo o bare-metal. Este hipervisor se ejecuta directamente sobre el hardware en lugar de un SO clásico. Todos los hipervisores necesitan algunos elementos del sistema operativo (por ejemplo, el administrador de memoria, el programador de procesos, la pila de entrada o salida [E/S], los controladores de dispositivos, entre otros) para ejecutar las máquinas virtuales. Por tanto, este hipervisor es equivalente a un SO con un poco de información adicional que le permite gestionar los SO invitados. Es muy común encontrarlos en centros de datos, por la eficiencia que supone el ahorrar una capa de software.
 
 Los hipervisores de Tipo 2 se ejecutan sobre el SO anfitrión como una capa de software o aplicación. Están orientados a usuarios individuales que buscan ejecutar varios SO en el mismo ordenador. La ejecución de una VM sobre un hipervisor de este tipo es más lenta que en un hipervisor de Tipo 1.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{../imgs/EdA/hipervisor.jpg}
+\caption{Tipos de hipervisor}
+\label{fig:hipervtypes}
+\end{figure}
 
 \subsubsection{VirtualBox}
 \subsubsection{VMWare}
@@ -30,3 +36,7 @@ Los hipervisores de Tipo 2 se ejecutan sobre el SO anfitrión como una capa de s
 \subsubsection{Chef}
 \subsubsection{Ansible}
 \section{Tecnologías de orquestación}
+\subsubsection{Docker Compose}
+\subsubsection{Kubernetes}
+\subsubsection{Terraform}
+\subsubsection{A}

@@ -1,10 +1,9 @@
-\documentclass[a4paper, 12pt]{report} % Formato de plantilla
-
+\documentclass[a4paper, 12pt, twoside]{report} % Formato de plantilla
+\raggedbottom % Para que el formato twoside no haga vfill si hay cosas que no ocupan una cara entera
 \usepackage{tex/estilo}
 
 % Comienzo del documento
 \begin{document}
-	
 	%-----------------------------------------------------------------------------------
 	% Portada 
 	\input{tex/c0-1_portada}
@@ -17,8 +16,10 @@
 	% ----------------------------------------------------------------------------------
 	% TOC
 	\tableofcontents
+	\afterpage{\blankpage}
 	% Figuras
 	\listoffigures
+	\afterpage{\blankpage}
 	\addcontentsline{toc}{chapter}{\listfigurename}
 	%-----------------------------------------------------------------------------------
 	% Contenido
@@ -28,5 +29,4 @@
 	% Bibliografía
 	\printbibliography[heading=bibintoc]
 	%----------------------------------------------------------------------------------
-
 \end{document}
