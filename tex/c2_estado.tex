@@ -140,6 +140,13 @@
 	\caption{Arquitectura del sistema de contenedores Docker}
 	\label{fig:docker-arch}
 	\end{figure}
+	
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.2\textwidth]{../imgs/EdA/docker.png}
+	\caption{Logo de Docker}
+	\label{fig:docker-logo}
+	\end{figure}
 
 	En el ciclo de vida de un contenedor Docker podemos distinguir 5 estados principales:
 
@@ -171,13 +178,6 @@
   $ docker rm #elimina los procesos y el contenedor donde corrian
 \end{lstlisting}
 
-	\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.2\textwidth]{../imgs/EdA/docker.png}
-	\caption{Logo de Docker}
-	\label{fig:docker-logo}
-	\end{figure}
-
 \subsubsection{Diferencias entre LXC y Docker}
 	Con todo esto, podemos sacar varias conclusiones importantes acerca de estos dos tipos de contenerización, que condicionarán la elección de uno u otro en función de su uso. La principal sería que mientras que con LXC se virtualiza un sistema operativo completo, con Docker se virtualizan aplicaciones. Además, los contenedores LXC sólo permiten virtualizar entornos Linux y no se pueden portar entre máquinas, mientras que Docker permite portar entre máquinas e incluso plataformas. Esto último es algo relevante puesto que si en algún momento fuese necesario migrar a otro entorno, gracias a la portabilidad de Docker nos ahorraremos el tener que instalar en este nuevo entorno todas aquellas aplicaciones que normalmente usemos. 
 
@@ -192,7 +192,7 @@
 	\end{figure}
 	\clearpage
 
-\section{Tecnologías de aprovisionamiento} \label{ch:aprov}
+\section{Tecnologías de aprovisionamiento} \label{sec:aprov}
 	Antes de entrar en materia, se va a presentar la infraestructura como código, un concepto fundamental para el desarrollo de este trabajo. 
 
 	La infraestructura como código (IaC) permite gestionar y preparar la infraestructura de un entorno con código, en lugar de hacerlo mediante procesos manuales. Con este tipo de infraestructura, se crean archivos de configuración que contienen las especificaciones que esta necesita, lo cual facilita la edición y la distribución de las configuraciones. Asimismo, garantiza que siempre se despliegue el mismo entorno.~\cite{aprov1}
@@ -291,7 +291,7 @@
 \subsection{Aprovisionamiento dinámico} \label{sec:din}
 \subsubsection{Chef}
 \subsubsection{Ansible}
-\section{Tecnologías de orquestación} \label{ch:orq}
+\section{Tecnologías de orquestación} \label{sec:orq}
 \subsubsection{Docker Compose}
 \subsubsection{Kubernetes}
 \subsubsection{Terraform}
