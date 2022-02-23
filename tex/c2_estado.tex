@@ -241,6 +241,53 @@
 	La sintaxis de un Dockerfile es sencilla y flexible. Cada instrucción va en una fila, siguiendo el formato \texttt{<INSTRUCCIONES> <ARGUMENTOS>}, y se ejecuta de manera independiente a las demás. En el Dockerfile del ejemplo anterior se han usado las instrucciones \texttt{FROM} para indicar que se parte de una imagen base Ubuntu, y \texttt{RUN} para ejecutar comandos en la imagen (correspondientes a la instalación de los paquetes de apache y node). Pero hay multitud de instrucciones más, como por ejemplo \texttt{ENV} para establecer variables de entorno persistentes en el contenedor o \texttt{COPY} para copiar archivos o directorios de la máquina host al contenedor. Cuando construyamos nuestras propias imágenes, se profundizará más en estas instrucciones y su funcionamiento.
 
 \subsubsection{Vagrant}
+	Vagrant~\cite{vagrant} es una herramienta de línea de comandos que permite crear y configurar máquinas virtuales a partir de ficheros de configuración llamados Vagrantfile.
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.2 \textwidth]{../imgs/EdA/vagrant.png}
+	\caption{Logo de Vagrant}
+	\label{fig:vagrant}
+	\end{figure}
+
+	Al poseer estos ficheros de configuración, que nos permiten definir los servicios a instalar así como también sus configuraciones, se centraliza toda la configuración de la VM que creamos, de forma que es  posible  utilizar el mismo Vagrantfile para crear una VM exactamente igual cuantas veces se quiera. Esto es algo muy ventajoso ya que nos permite ahorrar la carga de trabajo que supone el desplegar el mismo entorno una y otra vez, con la seguridad de que nuestro entorno siempre tendrá la misma configuración.
+
+	Cabe destacar que vagrant no tiene la capacidad para correr una máquina virtual sino que simplemente se encarga de las características con las que debe crearse esa VM y los complementos a instalar. Para poder trabajar con las máquinas virtuales es necesario la instalación de VirtualBox, Docker, Hyper-v, o la tecnología de virtualización que se desee (y sea compatible\footnote{Ver en la documentación oficial~\cite{vagrant}}).
+
+	\clearpage 
+	Un ejemplo sencillo de Vagrantfile sería el siguiente:~\cite{vagrant2}
+
+	\begin{lstlisting}[language=Bash, caption=Ejemplo de Vagrantfile]
+	Vagrant.configure("2") do |config|
+	    config.vm.box = "genebean/centos6-64bit"
+	    # network
+	    config.vm.network "private_network", ip: "192.168.56.100"
+	    # hardware
+	    config.vm.provider "virtualbox" do |vb|
+	        vb.memory = "1024"
+	        vb.cpus = 1
+	    end
+
+	    config.vm.provision "shell", inline: <<-SHELL
+	        yum update
+	        yum install -y nginx
+	        yum install -y epel-release
+	        rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+	        yum install -y php56w-fpm php56w-opcache
+	        yum replace php-common --replace-with=php56w-common
+	        yum -y install --enablerepo=remi,remi-test mysql mysql-server
+	   SHELL
+	end 
+	\end{lstlisting}
+
+	La instrucción \texttt{vagrant up} usaría este fichero para crear una VM en VirtualBox con 1 CPU y una memoria de 1024 MB partiendo de una imagen Centos 6 de 64bit, en la que se realiza la instalación de Nginx, PHP 5.6 y MariaDB utilizando un shell script. El aprovisionamiento sólo se ejecuta al crear la máquina, todas las demás veces que se inicie la máquina virtual no se ejecutará este script, a no ser que se indique expresamente mediante el comando \texttt{vagrant provision}. Una vez creada, bastaría con la orden \texttt{vagrant ssh} para acceder a ella o bien podríamos detenerla o eliminarla con \texttt{vagrant halt} y \texttt{vagrant destroy}, respectivamente.
+
+	En resumen, Vagrant es muy fácil de instalar y utilizar, permitiéndonos configurar entornos locales solo con un par de comandos. Además, nos proporciona la seguridad de que todos los entornos que creemos con el mismo Vagrantfile serán iguales. Como desventaja, es importante que todos los comandos a ejecutar no necesiten la interacción del usuario, ya que si no, va a fallar.
+
+	Vagrant permite realizar algunas configuraciones de red, pero no está pensado para trabajar con grandes cantidades de máquinas virtuales, para infraestructuras más complejas existen otras herramientas como Terraform que pertenece a la misma empresa HashiCorp, y que vamos a presentar posteriormente como una de las tecnologías de orquestación de escenarios.
+
+	\clearpage
+
 \subsection{Aprovisionamiento dinámico} \label{sec:din}
 \subsubsection{Chef}
 \subsubsection{Ansible}
