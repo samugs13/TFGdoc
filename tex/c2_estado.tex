@@ -252,12 +252,14 @@
 
 	Al poseer estos ficheros de configuración, que nos permiten definir los servicios a instalar así como también sus configuraciones, se centraliza toda la configuración de la VM que creamos, de forma que es  posible  utilizar el mismo Vagrantfile para crear una VM exactamente igual cuantas veces se quiera. Esto es algo muy ventajoso ya que nos permite ahorrar la carga de trabajo que supone el desplegar el mismo entorno una y otra vez, con la seguridad de que nuestro entorno siempre tendrá la misma configuración.
 
-	Cabe destacar que vagrant no tiene la capacidad para correr una máquina virtual sino que simplemente se encarga de las características con las que debe crearse esa VM y los complementos a instalar. Para poder trabajar con las máquinas virtuales es necesario la instalación de VirtualBox, Docker, Hyper-v, o la tecnología de virtualización que se desee (y sea compatible\footnote{Ver en la documentación oficial~\cite{vagrant}}).
+	Cabe destacar que vagrant no tiene la capacidad para correr una máquina virtual sino que simplemente se encarga de definir las características con las que debe crearse esa VM y los complementos a instalar. Para poder trabajar con las máquinas virtuales es necesario la instalación de VirtualBox, Docker, Hyper-v, o la tecnología de virtualización que se desee (y sea compatible\footnote{Ver en la documentación oficial~\cite{vagrant}}).
 
-	\clearpage 
+	\clearpage
+	Desde Vagrant se pueden configurar algunos aspectos de la máquina virtual relacionados con la red, los puertos y hasta la IP, aunque se requiere para ello la instalación de una serie de servicios en el sistema operativo. Si no se instalaran estos servicios, no se podría hacer desde Vagrant y se debería usar alguna otra herramienta, como por ejemplo Ansible, la cual veremos más adelante.
+
 	Un ejemplo sencillo de Vagrantfile sería el siguiente:~\cite{vagrant2}
 
-	\begin{lstlisting}[language=Bash, caption=Ejemplo de Vagrantfile]
+\begin{lstlisting}[language=Bash, caption=Ejemplo de Vagrantfile]
 	Vagrant.configure("2") do |config|
 	    config.vm.box = "genebean/centos6-64bit"
 	    # network
@@ -278,7 +280,7 @@
 	        yum -y install --enablerepo=remi,remi-test mysql mysql-server
 	   SHELL
 	end 
-	\end{lstlisting}
+\end{lstlisting}
 
 	La instrucción \texttt{vagrant up} usaría este fichero para crear una VM en VirtualBox con 1 CPU y una memoria de 1024 MB partiendo de una imagen Centos 6 de 64bit, en la que se realiza la instalación de Nginx, PHP 5.6 y MariaDB utilizando un shell script. El aprovisionamiento sólo se ejecuta al crear la máquina, todas las demás veces que se inicie la máquina virtual no se ejecutará este script, a no ser que se indique expresamente mediante el comando \texttt{vagrant provision}. Una vez creada, bastaría con la orden \texttt{vagrant ssh} para acceder a ella o bien podríamos detenerla o eliminarla con \texttt{vagrant halt} y \texttt{vagrant destroy}, respectivamente.
 
@@ -289,8 +291,98 @@
 	\clearpage
 
 \subsection{Aprovisionamiento dinámico} \label{sec:din}
+	El enfoque imperativo de las herramientas presentadas en el apartado anterior, así como de los tradicionales scripts en bash o python empleados para automatizar configuraciones, donde se detallan todas las instrucciones necesarias para llegar a la configuración deseada, puede desembocar en errores de ejecución. 
+
+	Imaginemos un script en el que uno de los pasos para lograr la configuración deseada es crear un directorio. La primera vez que se ejecute, este script funcionará correctamente, pero, si lo volvemos a ejecutar, lo más seguro es que aparezca un error debido a que el directorio ya se creó al ejecutar el script por primera vez, y estaríamos intentando crear un directorio ya existente. 
+
+	Para evitar este problema y derivados provocados por errores humanos, es muy común el empleo de un aprovisionamiento dinámico, mediante herramientas de gestión de configuración. La principal característica que presentan estas herramientas es lo que se conoce como idempotencia, que se define como la propiedad para realizar una acción determinada varias veces y aún así conseguir el mismo resultado que se obtendría si se realizase una sola vez.
+	
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/EdA/aprovisionamiento.png}
+	\caption{Comparativa de herramientas de gestión de la configuración}
+	\label{fig:aproVS}
+	\end{figure}
+
+	Esto es debido a que las herramientas de gestión de la configuración usan un lenguaje declarativo, en el que simplemente hay que especificar el estado final deseado, y la propia herramienta llevará a cabo las acciones necesarias para llegar a él, que variarán en función del estado en el que se encuentre la máquina. De esta forma se agilizan los cambios y las implementaciones, se elimina la posibilidad de que se cometan errores humanos, y la gestión del sistema se torna predecible y ajustable.~\cite{aprov2}
+
+	Además, estas herramientas posibilitan también tener la configuración de una infraestructura TI en forma de código, lo que da lugar a que una infraestructura sea:
+
+	\begin{itemize}
+		\item \textbf{Escalable.} La automatización del proceso de configuración ofrece la ventaja de poder aplicarlo tanto a infraestructuras pequeñas como de gran tamaño.
+		\item \textbf{Replicable.} El código puede ser replicado y a partir de él generar la infraestructura, de manera que se adapten según las necesidades y entornos disponibles.
+	\end{itemize}
+
+	Actualmente existen una gran variedad de herramientas de este tipo (ver figura \ref{fig:aproVS}) con diferentes características.
+
 \subsubsection{Chef}
+	El software Chef~\cite{chef1} es una herramienta de gestión de la configuración de código abierto que permite crear partes de una infraestructura como un servicio. Para ello hace uso de tres elementos principales:~\cite{chef2}
+	\begin{itemize}
+		\item \textbf{Recipes.} Una receta es un fichero escrito en Ruby que contiene el código que va a realizar operaciones sobre las máquinas, en este caso sería la gestión de software y configuración, aunque también podría realizarse el despliegue. Una receta puede depender o estar contenida en otra.
+		\item \textbf{Cookbooks.} Un libro de cocina es la unidad fundamental de configuración y distribución de políticas. Define un escenario y contiene todo lo necesario para que se de ese escenario: recetas que especifican los recursos a utilizar, atributos para sobrescribir la configuración predeterminada de una máquina, ficheros estáticos para administrar archivos de configuración…
+		\item \textbf{Knife.} Desde las estaciones de trabajo o workstations se gestionan las configuraciones antes de enviarlas al Chef Server. Para ello se emplea una herramienta de línea de comandos llamada Knife que permite interactuar mediante SSH con el servidor Chef. Con Knife se puede subir, descargar o eliminar cookbooks de Chef Server, instalar Chef Client en dispositivos (crear nodos), consultar datos acerca de nodos y cookbooks etc.
+	\end{itemize}
+
+	Chef es de tipo cliente-servidor, por lo que es necesaria la instalación y configuración del software Chef Client en los nodos o dispositivos (ya sean físicos, virtuales, o en la nube) que se quieran aprovisionar. Una vez instalado, todos los nodos gestionados se comunican con el servidor principal a través del uso de certificados. El elemento principal y núcleo es el llamado Chef Server, desde el cual es posible centralizar el proceso de lanzamiento y configuración de las máquinas haciendo uso de los cookbooks y recetas almacenadas en él.
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/EdA/arquitectura-chef.png}
+	\caption{Arquitectura de funcionamiento de Chef}
+	\label{fig:chef-arch}
+	\end{figure}
+	\clearpage
+
 \subsubsection{Ansible}
+	Ansible~\cite{ans1}, al igual que Chef, es un motor open source que automatiza los procesos para preparar la infraestructura, gestionar la configuración, implementar las aplicaciones y organizar los sistemas, entre otros procedimientos de TI.
+
+	Ansible está escrito en Python, y presenta algunas ventajas respecto a Chef. En primer lugar es serverless, lo que significa que no hay que instalar agentes ya que la configuración se lleva a cabo por SSH. Además, la configuración se realiza en YAML, un lenguaje más sencillo de aprender y usar que Ruby. Todo esto hace que la curva de aprendizaje en Ansible sea considerablemente menor que la de Chef y Puppet.
+
+	En Ansible también podemos destacar tres elementos principales:
+
+	\begin{itemize}
+		\item \textbf{Inventario.} Es un fichero YAML que contiene el grupo de máquinas sobre las que se va a realizar una acción determinada.
+		\item \textbf{Task.} Una tarea o task es la acción específica a realizar sobre las máquinas (el estado en el que queremos que quede el sistema). Sólo es necesario declarar el estado final, ya que como se había comentado estas herramientas tienen un enfoque declarativo. Cada tarea no es más que una llamada a un módulo de Ansible.
+		\item \textbf{Playbook.} un playbook es un fichero YAML que contiene una lista de plays o actos, siendo un play una lista de tareas o tasks que se aplican sobre un determinado conjunto de hosts (inventario).
+	\end{itemize}
+	
+	\vspace{0.2cm}
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/EdA/arquitectura-ansible.png}
+	\caption{Arquitectura de funcionamiento de Ansible}
+	\label{fig:ansible-arch}
+	\end{figure}
+
+	La ventaja principal de Ansible frente al resto de herramientas de configuración es su facilidad de uso. Para su funcionamiento es necesario que el cliente cuente con SSH y Python, que normalmente suelen estar instaladas por defecto en los sistemas Linux. Vamos a ver a continuación un ejemplo en el que se actualiza un servidor web con Ansible. En primer lugar habría que crear un fichero (en este ejemplo se llama \textit{inventory.ini}) con el host a actualizar, que previamente tendremos que haber definido en el fichero \texttt{/etc/hosts} para que la resolución de dominio sea correcta (en su defecto, tendríamos que especificar la dirección IP en el inventario). Su contenido podría ser el siguiente:
+	
+\clearpage
+\begin{lstlisting}[language=Bash, caption=Contenido del fichero inventory.ini]
+	[webserver]
+	ansible_host=192.168.1.2 ansible_user=ubuntu ansible_password=daerv
+\end{lstlisting}	
+	
+	Lo conveniente, por temas de seguridad, habría sido el uso de keypairs en vez de poner la contraseña, pero para facilitar el entendimiento del ejemplo se muestra así. Ahora habría que definir un playbook (\textit{ansible.yml}) con las tasks a realizar en ese host:
+
+\vspace{0.2cm}
+\begin{lstlisting}[language=Bash, caption=Contenido del fichero ansible.yml]
+	---
+	- hosts: webserver
+	  tasks:
+	  - name: Actualizar Apache 
+	    apt: name=apache2 state=latest
+	  - name: Apache corriendo  
+	    service: name=apache2 state=restarted
+\end{lstlisting}
+
+	La comunicación entre la máquina de control y las administradas es vía SSH. Por tanto, la máquina de control deberá tener la clave privada y las máquinas administradas la clave pública. Si esto se cumple, correríamos el playbook mediante la siguiente orden:
+
+\vspace{0.2cm}
+\begin{lstlisting}[language=Bash]
+        		$ ansible-playbook ansible.yml -i inventory.ini 
+\end{lstlisting}
+\clearpage
+
 \section{Tecnologías de orquestación} \label{sec:orq}
 \subsubsection{Docker Compose}
 \subsubsection{Kubernetes}
