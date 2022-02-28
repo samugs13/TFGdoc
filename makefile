@@ -21,7 +21,7 @@ tfg: $(OUTPUT_DIR)/tfg.pdf
 	mkdir -p $(OUTPUT_DIR)
 	$(TEX) $(SRC_DIR)/tfg.tex
 
-prev: tfg
+prev: tfg 
 	$(TEX) $(SRC_DIR)/tfg.tex -pvc
 
 clean:
