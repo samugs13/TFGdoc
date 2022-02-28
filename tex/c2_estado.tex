@@ -384,13 +384,13 @@
 \clearpage
 
 \section{Tecnologías de orquestación} \label{sec:orq}
-En el pasado, la preparación de la infraestructura de TI se llevaba a cabo de forma manual e incluía la instalación de servidores físicos y la configuración del hardware según los ajustes deseados. Si se necesitaba más capacidad, se tenía que solicitar más hardware, esperar a que llegara y luego instalarlo y prepararlo.~\cite{orq1} 
+	En el pasado, la preparación de la infraestructura de TI se llevaba a cabo de forma manual e incluía la instalación de servidores físicos y la configuración del hardware según los ajustes deseados. Si se necesitaba más capacidad, se tenía que solicitar más hardware, esperar a que llegara y luego instalarlo y prepararlo.~\cite{orq1} 
 
-En la actualidad, la infraestructura suele definirse en el software. La virtualización y los contenedores agilizaron los procesos de preparación y eliminaron la necesidad de preparar y gestionar sistemas de hardware con frecuencia. Al igual que el aprovisionamiento de las máquinas, la preparación del escenario también puede automatizarse.
+	En la actualidad, la infraestructura suele definirse en el software. La virtualización y los contenedores agilizaron los procesos de preparación y eliminaron la necesidad de preparar y gestionar sistemas de hardware con frecuencia. Al igual que el aprovisionamiento de las máquinas, la preparación del escenario también puede automatizarse.
 
-Las herramientas de orquestación de escenario son una tecnología IaC mediante la cual es posible definir vía fichero qué elementos a nivel de red/arquitectura se van a desplegar: máquinas, VLANs, recursos dedicados (como cantidad de CPU y memoria), etc. 
+	Las herramientas de orquestación de escenario son una tecnología IaC mediante la cual es posible definir vía fichero qué elementos a nivel de red/arquitectura se van a desplegar: máquinas, VLANs, recursos dedicados (como cantidad de CPU y memoria), etc. 
 
-Al presentar las tecnologías de virtualización y aprovisionamiento hablamos de despliegue, que es el hecho de levantar y configurar (por ejemplo, a nivel interconexión de red) las máquinas que van a formar ese escenario virtualizado. Por tanto, si se combina la orquestación de escenario junto con el despliegue, ambas tecnologías IaC, podremos realizar el despliegue automatizado de escenarios de red virtualizados.
+	Al presentar las tecnologías de virtualización y aprovisionamiento hablamos de despliegue, que es el hecho de levantar y configurar (por ejemplo, a nivel interconexión de red) las máquinas que van a formar ese escenario virtualizado. Por tanto, si se combina la orquestación de escenario junto con el despliegue, ambas tecnologías IaC, podremos realizar el despliegue automatizado de escenarios de red virtualizados.
 
 \subsubsection{Docker Compose}
 	Docker Compose~\cite{orq2} es una herramienta para definir y ejecutar múltiples contenedores Docker de forma simultánea en un mismo host. Utiliza un archivo YAML (normalmente de nombre \texttt{docker-compose.yml}) para configurar los servicios de la aplicación. Luego, con un solo comando, crea e inicia todos los servicios desde su configuración. Si bien en algunos casos se puede decir que es un orquestador, no es del todo comparable a los orquestadores que veremos a continuación (como ECS, Kubernetes, etc) ya que pese a que puede ejecutar varios servicios distintos, no puede manejar autoscaling, downtime etc.
