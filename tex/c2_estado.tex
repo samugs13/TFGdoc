@@ -398,14 +398,99 @@ Al presentar las tecnologías de virtualización y aprovisionamiento hablamos de
 	\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.5\textwidth]{../imgs/EdA/compose.png}
-	\caption{Logo Docker Compose}
+	\caption{Logo de Docker Compose}
 	\label{fig:compose}
 	\end{figure}
 
 	El fichero Dockerfile del que hablamos en el apartado \ref{sec:aprov} define como crear la imagen de una aplicación o contenedor, mientras que el fichero \textit{docker-compose.yml} nos permite vincular y configurar estos contenedores en conjunto para construir varios servicios. La forma en que ejecutamos nuestro docker compose es con la instrucción \texttt{docker-compose up}, el cual entrega instrucciones para ejecutar el contenedor según el \textit{docker-compose.yml}.
 
 \subsubsection{Kubernetes}
-	
+	Docker Compose nos permite desplegar múltiples contenedores en un mismo host. Es posible que, por motivos de disponibilidad entre otros, quisiéramos tener nuestros contenedores ejecutándose en diferentes hosts. Esto, entre otras cosas (como que los host que alojan estos contenedores estén en la nube), es algo que nos permite Kubernetes.
+
+	Kubernetes~\cite{orq3} es un orquestador open source para aplicaciones que se ejecutan en contenedores de software. La ventaja principal de usar Kubernetes es que facilita enormemente la gestión de los contenedores al encargarse del trabajo duro en el escalamiento, recuperación automática, balanceo de cargas, despliegues y mucho más. 
+
+	% WARNING
+	% La siguiente figura muestra una recapitulación de todos los tipos de despliegue que se han explicado hasta ahora. Esta contextualización permite un mejor entendimiento del concepto de Kubernetes y de las tecnologías de orquestación en general.
+
+	% \vspace{0.2cm}
+	% \begin{figure}[h]
+	% \centering
+	% \includegraphics[width=0.8\textwidth]{../imgs/EdA/k8s-1.png}
+	% \caption{Orquestación de contenedores con Kubernetes}
+	% \label{fig:k8s}
+	% \end{figure}
+
+	Los elementos principales de Kubernetes son los siguientes:
+
+	\begin{itemize}
+		\item \textbf{Plano de control.} Conjunto de procesos que controlan los nodos de Kubernetes. Es donde se originan todas las asignaciones de tareas.
+		\item \textbf{Nodo.} Máquina física o virtual que ejecuta las tareas asignadas por el plano de control.
+		\item \textbf{Clúster.} Conjunto de nodos. Es lo que sería una implementación de Kubernetes en funcionamiento.
+		\item \textbf{Pod.} Conjunto de contenedores que se ejecutan en el mismo nodo, compartiendo volumen y network namespace (IP, hostname, etc).
+		\item \textbf{Controlador de replicación.} Controla la cantidad de copias idénticas de un pod que deben ejecutarse en algún lugar del clúster.
+		\item \textbf{Servicio.} Separa las definiciones de las tareas de los pods. Los proxies de servicios de Kubernetes envían las solicitudes de servicio al pod correspondiente de forma automática, sin importar a dónde se traslade en el clúster ni si se lo reemplaza.
+		\item \textbf{Kubelet.} Servicio que se ejecuta en los nodos y se encarga de leer los manifiestos del contenedor y de garantizar el inicio y el funcionamiento de los contenedores definidos.
+	\end{itemize}
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/EdA/k8s-arch.png}
+	\caption{Arquitectura de Kubernetes}
+	\label{fig:k8s}
+	\end{figure}
 
 \subsubsection{Terraform}
+	Terraform~\cite{orq4} es una herramienta open-source de codificación declarativa desarrollada por HashiCorp que permite describir la infraestructura en local o cloud de "estado final" deseada para ejecutar una aplicación. Esto se hace mediante ficheros de configuración en formato JSON o en la sintaxis de alto nivel HCL (HashiCorp Configuration Language) propuesta por Terraform. 
+
+	Una vez especificado el estado deseado, elabora un plan para alcanzar ese estado final y lo ejecuta para suministrar la infraestructura.
+
+	La infraestructura que Terraform puede administrar incluye componentes de bajo nivel, como instancias informáticas, almacenamiento y redes, así como componentes de alto nivel como entradas de DNS, características de SaaS, etc.
+
+	Lo más común es usar un fichero para definir la arquitectura, una serie de variables para poder parametrizar el despliegue y algunas variables de salida para obtener los datos más importantes de la infraestructura una vez desplegada (por ejemplo la IP de un ELB de AWS o el endpoint de RDS).
+
+	Existen cuatro elementos principales en Terraform:
+	
+	\begin{itemize}
+		\item \textbf{Providers:} definen los elementos data y resources para plataformas y herramientas específicas. Son plugins que implementan tipos de recursos y contienen todo el código necesario para autenticar y conectarse a un servicio, normalmente desde un proveedor de cloud público, en nombre del usuario. Es posible encontrar proveedores para las plataformas y servicios de cloud que se vayan a utilizar, añadirlos a la configuración y, a continuación, utilizar sus recursos para suministrar la infraestructura. Los proveedores están disponibles para casi todos los principales proveedores de cloud, oferta de SaaS, y más, desarrollados y/o soportados por la comunidad de Terraform u organizaciones individuales.
+		\item \textbf{Resources:} definen elementos de la infraestructura que pueden ser aprovisionados, junto con sus propiedades. Una vez desplegados, proporcionan salidas que pueden utilizarse como entrada de otros elementos o como salida final de la ejecución, para mostrar al usuario.
+		\item \textbf{Data:} recuperan información acerca del estado actual de un recurso u otro elemento y proporcionan salidas.
+		\item \textbf{Modules:} son abstracciones para agrupar conjuntos de data y resources. Se pueden configurar entradas y salidas. Los módulos de Terraform son pequeñas configuraciones de Terraform reutilizables para varios recursos de infraestructura que se utilizan conjuntamente. Son útiles porque permiten automatizar recursos complejos con construcciones configurables y reutilizables. Escribir incluso un archivo de formato Terraform muy simple genera un módulo. Un módulo puede llamar a otros módulos, denominados módulos hijo, que permiten que la configuración de ensamblaje sea más rápida y concisa. Los módulos también se pueden llamar varias veces, ya sea dentro de la misma configuración o en configuraciones separadas.
+	\end{itemize}
+	\clearpage
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.3\textwidth]{../imgs/EdA/terraform.png}
+	\caption{Logo de Terraform}
+	\label{fig:terraform}
+	\end{figure}
+
+	Hay algunas razones clave por las cuales los desarrolladores eligen utilizar Terraform sobre otras herramientas de Infraestructura como código:~\cite{orq5}
+
+	\begin{itemize}
+		\item \textbf{Open Source.} Terraform está respaldada por grandes comunidades de colaboradores que crean plugins para la plataforma. Independientemente del proveedor de cloud que se utilice, es fácil encontrar plugins, extensiones y soporte profesional. Esto también significa que Terraform evoluciona rápidamente y constantemente se añaden nuevas ventajas y mejoras.
+		\item \textbf{Plataforma agnóstica.} Esto significa que puede ser utilizada con cualquier proveedor de servicios de cloud. La mayoría de las demás herramientas de IaC están diseñadas para funcionar con un único proveedor de cloud, lo que podría ser visto como una desventaja ya que si quisiéramos migrar nuestra infraestructura a otro proveedor habría que reescribir gran parte del código.
+		\item \textbf{Infraestructura inmutable.} La mayoría de las herramientas de Infraestructura como código crean una infraestructura mutable, lo que significa que la infraestructura puede cambiar para acomodar cambios como una actualización de middleware o un nuevo servidor de almacenamiento. El peligro con la infraestructura mutable es la desviación de configuración, a medida que los cambios se acumulan, el suministro real de diferentes servidores u otros elementos de infraestructura 'se desvía' más allá de la configuración original, haciendo que los errores o problemas de rendimiento sean difíciles de diagnosticar y corregir. Terraform suministra una infraestructura inmutable, lo que significa que con cada cambio en el entorno, la configuración actual se sustituye por una nueva que aplica el cambio y se vuelve a suministrar la infraestructura. Incluso mejor, se pueden conservar las configuraciones anteriores como versiones para habilitar las reversiones en caso necesario o si así se desea.
+		\item \textbf{Lenguaje sencillo.} El lenguaje de configuración de alto nivel que propone HashiCorp, HCL, es muy fácil de entender ya que es muy cercano al lenguaje natural. De esta forma, la sintaxis no es un aspecto que entorpezca el aprendizaje.
+	\end{itemize}
+	\clearpage
+
 \subsubsection{Tecnologías de orquestación de proveedores cloud}
+	Las herramientas que se han presentado son muy utilizadas por las funciones que ofrecen y la cantidad de trabajo que facilitan. Es por esto que los principales proveedores cloud cuentan con servicios (ver figura \ref{fig:cloud}) que bien permiten la integración con estas herramientas o que proporcionan funcionalidades muy similares. Se han clasificado estos servicios en dos tipos:
+
+	\begin{itemize}
+		\item \textbf{Servicio declarativo:} permite modelar y configurar los recursos en la nube de una forma sencilla y adaptada para cada proveedor cloud. Este servicio sería una alternativa a Terraform.
+		\item \textbf{Servicio Kubernetes:} es un servicio administrado que permite ejecutar Kubernetes de forma sencilla en cada proveedor cloud sin necesidad de instalar, operar ni mantener un plano de control o nodos de Kubernetes propios.
+	\end{itemize}
+
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/cloud/Cloud-providers.png}
+	\caption{Tecnologías de orquestación ofrecidas por proveedores cloud}
+	\label{fig:cloud}
+	\end{figure}
+
+	Estas herramientas, al estar integradas en las plataformas cloud, hacen que la orquestación de recursos en la nube sea aún más sencilla ya que se realiza la configuración a través de una interfaz gráfica muy intuitiva.
+
+	Por otro lado, la principal desventaja que presentan radica en que su uso, al contrario que Terraform, conlleva un compromiso con el proveedor cloud que se elija. Es decir, si se decidiese usar Cloudformation de AWS, habría que tener en cuenta que esta herramienta está enfocada a la gestión de recursos exclusivamente en dicha plataforma. Por tanto, si en un momento dado se decidiese migrar a otro proveedor cloud, sería necesaria una modificación completa de todo el código, lo que implicaría una gran inversión de tiempo y recursos, ya que habría que usar otro servicio.
+
