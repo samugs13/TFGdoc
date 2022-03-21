@@ -98,7 +98,7 @@
 	\begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{../imgs/EdA/VMvsCont.png}
-	\caption{Estructura de un contenedor vs VM}
+	\caption{Contenedor vs VM: Estructura}
 	\label{fig:VMvsDocker}
 	\end{figure}
 
@@ -187,7 +187,7 @@
 	\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../imgs/EdA/LXCvsDocker.jpg}
-	\caption{Estructura de Docker vs LXC}
+	\caption{Docker vs LXC: Estructura}
 	\label{fig:docker-life}
 	\end{figure}
 	\clearpage
@@ -378,7 +378,7 @@
 	La comunicación entre la máquina de control y las administradas es vía SSH. Por tanto, la máquina de control deberá tener la clave privada y las máquinas administradas la clave pública. Si esto se cumple, correríamos el playbook mediante la siguiente orden:
 
 \vspace{0.2cm}
-\begin{lstlisting}[language=Bash]
+\begin{lstlisting}[language=Bash, caption=Orden de ejecución del playbook de Ansible]
         		$ ansible-playbook ansible.yml -i inventory.ini 
 \end{lstlisting}
 \clearpage
