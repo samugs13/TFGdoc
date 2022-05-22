@@ -238,7 +238,7 @@
 
 	La imagen tendrá una base mínima, que han de tener todas las imágenes para el correcto funcionamiento del contenedor. Esta base incluye el kernel y algunas de sus características necesarias de las que ya hemos hablado como cgroups y namespaces. Encima de la base se representan las capas de sólo lectura, que serían las instrucciones del Dockerfile. En este ejemplo se parte de una imagen Ubuntu a la que se le instala nodejs y apache. Finalmente al crear el contenedor con la instrucción docker run se añade la última capa, correspondiente a los sistemas de ficheros de lectura/escritura, sobre el resto de capas, de forma que podemos interactuar con el contenedor.
 
-	La sintaxis de un Dockerfile es sencilla y flexible. Cada instrucción va en una fila, siguiendo el formato \texttt{<INSTRUCCIONES> <ARGUMENTOS>}, y se ejecuta de manera independiente a las demás. En el Dockerfile del ejemplo anterior se han usado las instrucciones \texttt{FROM} para indicar que se parte de una imagen base Ubuntu, y \texttt{RUN} para ejecutar comandos en la imagen (correspondientes a la instalación de los paquetes de apache y node). Pero hay multitud de instrucciones más, como por ejemplo \texttt{ENV} para establecer variables de entorno persistentes en el contenedor o \texttt{COPY} para copiar archivos o directorios de la máquina host al contenedor. Cuando construyamos nuestras propias imágenes, se profundizará más en estas instrucciones y su funcionamiento.
+	% La sintaxis de un Dockerfile es sencilla y flexible. Cada instrucción va en una fila, siguiendo el formato \texttt{<INSTRUCCIONES> <ARGUMENTOS>}, y se ejecuta de manera independiente a las demás. En el Dockerfile del ejemplo anterior se han usado las instrucciones \texttt{FROM} para indicar que se parte de una imagen base Ubuntu, y \texttt{RUN} para ejecutar comandos en la imagen (correspondientes a la instalación de los paquetes de apache y node). Pero hay multitud de instrucciones más, como por ejemplo \texttt{ENV} para establecer variables de entorno persistentes en el contenedor o \texttt{COPY} para copiar archivos o directorios de la máquina host al contenedor. Cuando construyamos nuestras propias imágenes, se profundizará más en estas instrucciones y su funcionamiento.
 
 \subsubsection{Vagrant}
 	Vagrant~\cite{vagrant} es una herramienta de línea de comandos que permite crear y configurar máquinas virtuales a partir de ficheros de configuración llamados Vagrantfile.
@@ -254,39 +254,39 @@
 
 	Cabe destacar que vagrant no tiene la capacidad para correr una máquina virtual sino que simplemente se encarga de definir las características con las que debe crearse esa VM y los complementos a instalar. Para poder trabajar con las máquinas virtuales es necesario la instalación de VirtualBox, Docker, Hyper-v, o la tecnología de virtualización que se desee (y sea compatible\footnote{Ver en la documentación oficial~\cite{vagrant}}).
 
-	\clearpage
-	Desde Vagrant se pueden configurar algunos aspectos de la máquina virtual relacionados con la red, los puertos y hasta la IP, aunque se requiere para ello la instalación de una serie de servicios en el sistema operativo. Si no se instalaran estos servicios, no se podría hacer desde Vagrant y se debería usar alguna otra herramienta, como por ejemplo Ansible, la cual veremos más adelante.
+        % WARNING
+% 	Desde Vagrant se pueden configurar algunos aspectos de la máquina virtual relacionados con la red, los puertos y hasta la IP, aunque se requiere para ello la instalación de una serie de servicios en el sistema operativo. Si no se instalaran estos servicios, no se podría hacer desde Vagrant y se debería usar alguna otra herramienta, como por ejemplo Ansible, la cual veremos más adelante.
 
-	Un ejemplo sencillo de Vagrantfile sería el siguiente:~\cite{vagrant2}
-
-\begin{lstlisting}[language=Bash, caption=Ejemplo de Vagrantfile]
-	Vagrant.configure("2") do |config|
-	    config.vm.box = "genebean/centos6-64bit"
-	    # network
-	    config.vm.network "private_network", ip: "192.168.56.100"
-	    # hardware
-	    config.vm.provider "virtualbox" do |vb|
-	        vb.memory = "1024"
-	        vb.cpus = 1
-	    end
-
-	    config.vm.provision "shell", inline: <<-SHELL
-	        yum update
-	        yum install -y nginx
-	        yum install -y epel-release
-	        rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
-	        yum install -y php56w-fpm php56w-opcache
-	        yum replace php-common --replace-with=php56w-common
-	        yum -y install --enablerepo=remi,remi-test mysql mysql-server
-	   SHELL
-	end 
-\end{lstlisting}
-
-	La instrucción \texttt{vagrant up} usaría este fichero para crear una VM en VirtualBox con 1 CPU y una memoria de 1024 MB partiendo de una imagen Centos 6 de 64bit, en la que se realiza la instalación de Nginx, PHP 5.6 y MariaDB utilizando un shell script. El aprovisionamiento sólo se ejecuta al crear la máquina, todas las demás veces que se inicie la máquina virtual no se ejecutará este script, a no ser que se indique expresamente mediante el comando \texttt{vagrant provision}. Una vez creada, bastaría con la orden \texttt{vagrant ssh} para acceder a ella o bien podríamos detenerla o eliminarla con \texttt{vagrant halt} y \texttt{vagrant destroy}, respectivamente.
-
-	En resumen, Vagrant es muy fácil de instalar y utilizar, permitiéndonos configurar entornos locales solo con un par de comandos. Además, nos proporciona la seguridad de que todos los entornos que creemos con el mismo Vagrantfile serán iguales. Como desventaja, es importante que todos los comandos a ejecutar no necesiten la interacción del usuario, ya que si no, va a fallar.
-
+% 	Un ejemplo sencillo de Vagrantfile sería el siguiente:~\cite{vagrant2}
+%
+% \begin{lstlisting}[language=Bash, caption=Ejemplo de Vagrantfile]
+% 	Vagrant.configure("2") do |config|
+% 	    config.vm.box = "genebean/centos6-64bit"
+% 	    # network
+% 	    config.vm.network "private_network", ip: "192.168.56.100"
+% 	    # hardware
+% 	    config.vm.provider "virtualbox" do |vb|
+% 	        vb.memory = "1024"
+% 	        vb.cpus = 1
+% 	    end
+%
+% 	    config.vm.provision "shell", inline: <<-SHELL
+% 	        yum update
+% 	        yum install -y nginx
+% 	        yum install -y epel-release
+% 	        rpm -Uvh https://mirror.webtatic.com/yum/el6/latest.rpm
+% 	        yum install -y php56w-fpm php56w-opcache
+% 	        yum replace php-common --replace-with=php56w-common
+% 	        yum -y install --enablerepo=remi,remi-test mysql mysql-server
+% 	   SHELL
+% 	end 
+% \end{lstlisting}
+%
+% 	La instrucción \texttt{vagrant up} usaría este fichero para crear una VM en VirtualBox con 1 CPU y una memoria de 1024 MB partiendo de una imagen Centos 6 de 64bit, en la que se realiza la instalación de Nginx, PHP 5.6 y MariaDB utilizando un shell script. El aprovisionamiento sólo se ejecuta al crear la máquina, todas las demás veces que se inicie la máquina virtual no se ejecutará este script, a no ser que se indique expresamente mediante el comando \texttt{vagrant provision}. Una vez creada, bastaría con la orden \texttt{vagrant ssh} para acceder a ella o bien podríamos detenerla o eliminarla con \texttt{vagrant halt} y \texttt{vagrant destroy}, respectivamente.
+	
 	Vagrant permite realizar algunas configuraciones de red, pero no está pensado para trabajar con grandes cantidades de máquinas virtuales, para infraestructuras más complejas existen otras herramientas como Terraform que pertenece a la misma empresa HashiCorp, y que vamos a presentar posteriormente como una de las tecnologías de orquestación de escenarios.
+
+        En resumen, Vagrant es muy fácil de instalar y utilizar, permitiéndonos configurar entornos locales solo con un par de comandos. Además, nos proporciona la seguridad de que todos los entornos que creemos con el mismo Vagrantfile serán iguales. Como desventaja, es importante que todos los comandos a ejecutar no necesiten la interacción del usuario, ya que si no, va a fallar.
 
 	\clearpage
 
@@ -354,33 +354,36 @@
 	\label{fig:ansible-arch}
 	\end{figure}
 
-	La ventaja principal de Ansible frente al resto de herramientas de configuración es su facilidad de uso. Para su funcionamiento es necesario que el cliente cuente con SSH y Python, que normalmente suelen estar instaladas por defecto en los sistemas Linux. Vamos a ver a continuación un ejemplo en el que se actualiza un servidor web con Ansible. En primer lugar habría que crear un fichero (en este ejemplo se llama \textit{inventory.ini}) con el host a actualizar, que previamente tendremos que haber definido en el fichero \texttt{/etc/hosts} para que la resolución de dominio sea correcta (en su defecto, tendríamos que especificar la dirección IP en el inventario). Su contenido podría ser el siguiente:
-	
-\clearpage
-\begin{lstlisting}[language=Bash, caption=Contenido del fichero inventory.ini]
-	[webserver]
-	ansible_host=192.168.1.2 ansible_user=ubuntu ansible_password=daerv
-\end{lstlisting}	
-	
-	Lo conveniente, por temas de seguridad, habría sido el uso de keypairs en vez de poner la contraseña, pero para facilitar el entendimiento del ejemplo se muestra así. Ahora habría que definir un playbook (\textit{ansible.yml}) con las tasks a realizar en ese host:
-
-\vspace{0.2cm}
-\begin{lstlisting}[language=Bash, caption=Contenido del fichero ansible.yml]
-	---
-	- hosts: webserver
-	  tasks:
-	  - name: Actualizar Apache 
-	    apt: name=apache2 state=latest
-	  - name: Apache corriendo  
-	    service: name=apache2 state=restarted
-\end{lstlisting}
-
-	La comunicación entre la máquina de control y las administradas es vía SSH. Por tanto, la máquina de control deberá tener la clave privada y las máquinas administradas la clave pública. Si esto se cumple, correríamos el playbook mediante la siguiente orden:
-
-\vspace{0.2cm}
-\begin{lstlisting}[language=Bash, caption=Orden de ejecución del playbook de Ansible]
-        		$ ansible-playbook ansible.yml -i inventory.ini 
-\end{lstlisting}
+	La ventaja principal de Ansible frente al resto de herramientas de configuración es su facilidad de uso. Para su funcionamiento es necesario que el cliente cuente con SSH y Python, que normalmente suelen estar instaladas por defecto en los sistemas Linux. 
+        
+        % WARNING
+%       Vamos a ver a continuación un ejemplo en el que se actualiza un servidor web con Ansible. En primer lugar habría que crear un fichero (en este ejemplo se llama \textit{inventory.ini}) con el host a actualizar, que previamente tendremos que haber definido en el fichero \texttt{/etc/hosts} para que la resolución de dominio sea correcta (en su defecto, tendríamos que especificar la dirección IP en el inventario). Su contenido podría ser el siguiente:
+% 	
+% \clearpage
+% \begin{lstlisting}[language=Bash, caption=Contenido del fichero inventory.ini]
+% 	[webserver]
+% 	ansible_host=192.168.1.2 ansible_user=ubuntu ansible_password=daerv
+% \end{lstlisting}	
+% 	
+% 	Lo conveniente, por temas de seguridad, habría sido el uso de keypairs en vez de poner la contraseña, pero para facilitar el entendimiento del ejemplo se muestra así. Ahora habría que definir un playbook (\textit{ansible.yml}) con las tasks a realizar en ese host:
+%
+% \vspace{0.2cm}
+% \begin{lstlisting}[language=Bash, caption=Contenido del fichero ansible.yml]
+% 	---
+% 	- hosts: webserver
+% 	  tasks:
+% 	  - name: Actualizar Apache 
+% 	    apt: name=apache2 state=latest
+% 	  - name: Apache corriendo  
+% 	    service: name=apache2 state=restarted
+% \end{lstlisting}
+%
+% 	La comunicación entre la máquina de control y las administradas es vía SSH. Por tanto, la máquina de control deberá tener la clave privada y las máquinas administradas la clave pública. Si esto se cumple, correríamos el playbook mediante la siguiente orden:
+%
+% \vspace{0.2cm}
+% \begin{lstlisting}[language=Bash, caption=Orden de ejecución del playbook de Ansible]
+%         		$ ansible-playbook ansible.yml -i inventory.ini 
+% \end{lstlisting}
 \clearpage
 
 \section{Tecnologías de orquestación} \label{sec:orq}
@@ -440,7 +443,7 @@
 	\end{figure}
 
 \subsubsection{Terraform}
-	Terraform~\cite{orq4} es una herramienta open-source de codificación declarativa desarrollada por HashiCorp que permite describir la infraestructura en local o cloud de "estado final" deseada para ejecutar una aplicación. Esto se hace mediante ficheros de configuración en formato JSON o en la sintaxis de alto nivel HCL (HashiCorp Configuration Language) propuesta por Terraform. 
+	Terraform~\cite{orq4} es una herramienta open-source de codificación declarativa desarrollada por HashiCorp que permite describir la infraestructura de estado final deseada para ejecutar una aplicación en local o en cloud. Esto se hace mediante ficheros de configuración en formato JSON o en la sintaxis de alto nivel HCL (HashiCorp Configuration Language) propuesta por Terraform. 
 
 	Una vez especificado el estado deseado, elabora un plan para alcanzar ese estado final y lo ejecuta para suministrar la infraestructura.
 
