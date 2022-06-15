@@ -1,5 +1,5 @@
 \usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
+\usepackage[spanish, es-tabla]{babel}
 \usepackage[margin=2.5cm, includefoot]{geometry}
 \usepackage{graphicx} % Para la insercion de imagenes
 \usepackage[table,xcdraw]{xcolor} % Para la deteccion de colores
@@ -19,10 +19,15 @@
 % Declaracion de colores
 \definecolor{orange}{HTML}{ff6600}
 
+% Estilo de tablas
+\setlength\extrarowheight{2pt}
+\definecolor{oranget}{HTML}{f18e00}
+\definecolor{oranger}{HTML}{ffddcc}
+
 % Declaracion de variables
 \newcommand{\logoportadaU}{../imgs/logos/etsit.png}
 \newcommand{\logoportadaD}{../imgs/logos/etsit_blanco.png}
-\newcommand{\logopaginas}{../imgs/logos/ETSIT2.png}
+\newcommand{\logopaginas}{../imgs/logos/ETSIT1.png}
 \newcommand{\grado}{GRADO EN INGENIERÍA EN TECNOLOGÍAS Y SERVICIOS DE TELECOMUNICACIÓN}
 \newcommand{\titulo}{DESARROLLO DE UNA HERRAMIENTA PARA EL DESPLIEGUE AUTOMATIZADO DE ESCENARIOS DE RED VIRTUALIZADOS APLICABLES A PLATAFORMAS CYBER RANGE}
 \newcommand{\fecha}{2022}
@@ -69,11 +74,11 @@
 \setlength{\textheight}{545pt} 
 \pagestyle{fancy} % Definimos estilo fancy
 \fancyhf{} % "Limpiamos" lo que trae el estilo fancy por defecto
-\fancyhead[LE,RO]{\includegraphics[width=1.1cm, keepaspectratio]{\logopaginas}} % Foto de cabecera en las paginas del contenido
+\fancyhead[LE,RO]{\includegraphics[width=3.8cm, keepaspectratio]{\logopaginas}} % Foto de cabecera en las paginas del contenido
 \fancyhead[LO]{\small \rightmark} % Sección en cabecera izquierda de paginas impares
 \fancyhead[RE]{\small \leftmark} % Capítulo en cabecera derecha de paginas pares
 \cfoot{\thepage} % Número de página en el centro del pie de pagina
 \renewcommand{\headrulewidth}{2pt} % Grosor de la barra de la cabecera
 \renewcommand{\headrule}{\hbox to\headwidth{\color{orange}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
-\renewcommand{\lstlistingname}{Código} % Para cambiar el caption de los codigos 
+\renewcommand{\lstlistingname}{Código} % Para cambiar el caption de los codigos
 \bibliography{docs/refs} % Archivo .bib 
