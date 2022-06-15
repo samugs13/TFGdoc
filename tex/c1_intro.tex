@@ -1,18 +1,56 @@
+% Introducción
 \newpage
 \setcounter{page}{1}
 \pagenumbering{arabic}
-\chapter{Introducción}
+\chapter{Introducción}  
+  En este capítulo se va a presentar el proyecto a fin de dar una primera impresión así como proporcionar una idea de lo que se va a ir detallando en capítulos posteriores.
 
-El código empleado en este trabajo está disponible en el siguiente repositorio de GitHub:
+\section{Motivación} \label{sec:mot}
+  La creciente importancia que la digitalización ha alcanzado en el ámbito empresarial ha impactado directamente en las necesidades de ciberseguridad de las organizaciones. Buena parte de los ciudadanos, la mayoría de las empresas y casi la totalidad de los gobiernos son víctimas, a diario, de millones de ciberataques con un grado variable de sofisticación e impacto y, lo que es más preocupante, en su mayoría imperceptibles. La sustracción de información sensible o de datos de carácter personal, los ciberdelitos de naturaleza económica y la inutilización de sistemas militares, industriales, empresariales e incluso de infraestructuras críticas, son los principales objetivos de la gran mayoría de los ciberataques que acontecen hoy en día.
 
-\vspace{0.2cm}
+  En este contexto, existe una creciente demanda de profesionales en el ámbito de la ciberseguridad por parte de gobiernos y empresas. La capacitación continua de estos profesionales es esencial para disponer de una ciberdefensa que permita establecer las medidas de seguridad apropiadas de los ciberespacios que protegen. Esta capacitación  requiere de un nivel de innovación continuo únicamente proporcionado por entornos como los Cyber Range.
 
-\begin{tcolorbox}[enhanced,attach boxed title to top center={yshift=-3mm,yshifttext=-1mm},
-  colback=brown!20!white,colframe=orange!75!black,colbacktitle=orange!80!black,
-  title=Dirección URL,fonttitle=\bfseries,
-  boxed title style={size=small,colframe=orange!50!black} ]
-  \centering
-  \href{https://github.com/samugs13/DAERV}{\textbf{\color{blue}{https://github.com/samugs13/DAERV}}}
-\end{tcolorbox}
+  Un Cyber Range es una plataforma virtual que permite simular entornos operativos reales para la formación y el entrenamiento (individual o colectivo) de profesionales así como la experimentación,  el testeo y  la validación de nuevos conceptos, tecnologías, técnicas y tácticas de ciberseguridad y ciberdefensa.
 
+  Con el fin de hacer los Cyber Range lo más eficaces posible surge este trabajo de fin de grado. Se entiende por eficaz un Cyber Range que cumple los siguientes requisitos:
+  \begin{itemize}
+    \item Escenarios accesibles en tiempo y forma por los profesionales autorizados para su utilización de una forma muy sencilla.
+    \item Escalabilidad y flexibilidad para poder responder a las necesidades de los responsables en materia de ciberseguridad y ciberdefensa en función de la naturaleza de las actividades que lleven a cabo.
+    \item Entorno seguro que permita a los usuarios ejecutar las actividades sin poner en riesgo los sistemas en producción e información clasificada o sensible.
+  \end{itemize}
 
+  Estos aspectos contribuyen a una mejor formación y entreno de los profesionales de seguridad, a la par que facilitan el cumplimiento de las estrategias de ciberseguridad.
+
+\section{Objetivos} \label{sec:obj}
+  El objetivo de este trabajo es realizar despliegues de red heterogéneos virtualizados, aplicables a plataformas Cyber Range para la formación y entrenamiento en el campo de la ciberseguridad. El trabajo se centra principalmente en el despliegue de la infraestructura así como su interconexión, y no en la configuración a fondo de todos los elementos para la realización de tests de intrusión específicos.
+
+  Para alcanzar el objetivo final, se han identificado una serie de subobjetivos, desde lo más básico hasta lo más complejo, que en conjunto permitirán obtener el resultado deseado:
+
+  \begin{table}[h]
+    \begin{center}
+      \begin{tabular}{ | w{c}{1cm} | m{14cm} | }
+        \hline\rowcolor{oranget} \textbf{Id} & \textbf{Objetivo del TFG} \\ \hline
+        O1 & Determinar los escenarios a desplegar, intentando que estos reflejen situaciones lo más realistas posible. \\ \hline\rowcolor{oranger}
+        O2 & Posibilitar un despliegue de infraestructura que sea modelable mediante variables, escalable, portable y seguro. \\ \hline
+        O3 & Diseñar y configurar la comunicación entre los elementos que componen los escenarios. \\ \hline\rowcolor{oranger}
+        O4 & Pese a no ser el objetivo principal del trabajo, desarrollar una herramienta que sirva como base para la configuración software de dichos escenarios. \\ \hline
+      \end{tabular}
+      \caption{Objetivos planteados}
+      \label{tab:objs}
+    \end{center}
+  \end{table}
+
+\section{Estructura del documento} \label{sec:est}
+  El presente documento se secciona en capítulos. A fin de tener una visión global de las distintas fases, se muestra a continuación cada uno de ellos junto a una breve descripción:
+
+  \textbf{Capítulo 1.} Es la introducción al TFG, donde se proporciona una visión global y se describe la motivación de este así como los objetivos a conseguir.
+
+  \textbf{Capítulo 2.} Presenta el estado del arte, resumiendo las tecnologías empleadas en el proyecto y su comparación con opciones alternativas.
+
+  \textbf{Capítulo 3.} Diseño de la solución a implementar, basada en los requisitos identificados. Presentación de las  diferentes etapas a seguir para ello.
+
+  \textbf{Capítulo 4.} Se desarrolla la lógica seguida para implementar cada uno de los escenarios.
+
+  \textbf{Capítulo 5.} Resumen de los resultados obtenidos tras la fase de desarrollo reforzado con tests que lo prueban.
+
+  \textbf{Capítulo 6.} Conclusiones y problemas surgidos a raíz de la realización del proyecto. Líneas futuras sobre las que trabajar.
