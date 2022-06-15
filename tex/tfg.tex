@@ -9,32 +9,41 @@
 	\input{tex/c0-1_portada}
 	\input{tex/c0-2_portada-tutor}
 	%-----------------------------------------------------------------------------------
-	% Resumen
-	\input{tex/c0-3_resumen}
-	% Abstract 
+	% Agradecimientos
+    \input{tex/c0-3_agradecimientos}
+    % Abstract 
 	\input{tex/c0-4_abstract}
-	% Palabras clave 
-	\input{tex/c0-5_palabras-clave}
+	% Resumen
+	\input{tex/c0-5_resumen}
+    % Glosario 
+	\input{tex/c0-6_glosario}
 	% ----------------------------------------------------------------------------------
 	% TOC
 	\tableofcontents
 	\afterpage{\blankpage}
-	% Figuras
+    % Tablas
+    \listoftables
+    \afterpage{\blankpage}
+    \addcontentsline{toc}{chapter}{\listtablename}
+    % Figuras
 	\listoffigures
 	\afterpage{\blankpage}
 	\addcontentsline{toc}{chapter}{\listfigurename}
+
 	%-----------------------------------------------------------------------------------
 	% Contenido
 	\input{tex/c1_intro}
 	\input{tex/c2_estado}
 	\input{tex/c3_diseno}
 	\input{tex/c4_desarrollo}
+    \input{tex/c5_resultados}
+    \input{tex/c6_conclusiones}
 	%----------------------------------------------------------------------------------
 	% Bibliografía
 	\printbibliography[heading=bibintoc]
 	\clearpage
 	%----------------------------------------------------------------------------------
-	%Anexos	
-	\input{tex/c5_anexos}
+	% Anexos	
+	\input{tex/c7_anexos}
 	%----------------------------------------------------------------------------------
 \end{document}
