@@ -1,5 +1,7 @@
 % Estado del arte
 \chapter{Estado del arte} \label{ch:estado}
+    En este capítulo se van a presentar distintas tecnologías de virtualización, aprovisionamiento y despliegue aplicables al proyecto. Estas tecnologías se analizan y comparan para posteriormente seleccionar aquellas que mejor se adecuen a los objetivos que se pretenden conseguir.
+
 \section{Tecnologías de virtualización} \label{sec:virt}
 	Se podría decir que la virtualización es ya uno de los pilares fundamentales del mundo IT debido a las grandes ventajas que proporciona. Previo al desarrollo de las tecnologías y tipos de virtualización disponibles, es conveniente explicar en qué consiste la virtualización, que no es más que una representación mediante software de un entorno físico o recurso tecnológico, como pueden ser aplicaciones, servidores o almacenamiento.~\cite{virt1} 
 
@@ -8,9 +10,9 @@
 	En función del sistema a simular, podemos encontrar diferentes categorías~\cite{virt2}, un ejemplo es la virtualización de red, que consiste en crear redes virtuales sobre redes físicas o reproducir completamente redes físicas en software. Otro ejemplo sería la virtualización de almacenamiento, que combina varios dispositivos de almacenamiento en red, con la apariencia de una única unidad o dispositivo de almacenamiento, accesible por varios usuarios. Podríamos enumerar más tipos de virtualización, pero en lo que a este trabajo respecta vamos a centrarnos en la virtualización de software, que separa las aplicaciones del hardware y el sistema operativo, y en la que distinguimos dos subtipos: virtualización mediante hipervisor y virtualización en contenedores.
 
 \subsection{Virtualización mediante hipervisor} \label{sec:hiperv}
-	Una máquina virtual es un software que ejecuta programas o procesos como si fuera la máquina física. Es decir, se abstrae el hardware y se representa con una capa de software que proporciona una interfaz igual que el hardware, de forma que sobre ella podemos instalar uno o varios sistema operativos invitados o \textit{guests} distintos. Esta capa de software también se encarga de repartir y aislar los recursos del host entre las VM\footnote{Virtual Machine}, de manera que el host queda protegido si falla una VM, y las VM estén protegidas entre ellas. Pues bien, cuando hablamos de esta capa de software estamos hablando de lo que se conoce como hipervisor. 
+	Una máquina virtual es un software que ejecuta programas o procesos como si fuera la máquina física. Es decir, se abstrae el hardware y se representa con una capa de software que proporciona una interfaz igual que el hardware, de forma que sobre ella podemos instalar uno o varios sistema operativos invitados o \textit{guests} distintos. Esta capa de software también se encarga de repartir y aislar los recursos del host entre las VM, de manera que el host queda protegido si falla una VM, y las VM estén protegidas entre ellas. Pues bien, cuando hablamos de esta capa de software estamos hablando de lo que se conoce como hipervisor. 
 
-	Como ya se ha mencionado, un hipervisor es una capa intermedia de software que permite al ordenador anfitrión prestar soporte a varias máquinas virtuales mediante el uso compartido de sus recursos. Cuando se ejecuta una instrucción en el SO\footnote{Sistema Operativo} invitado, el hipervisor la coje y la ejecuta en el SO anfitrión. En este proceso, el SO no diferencia entre ejecutar procesos en la máquina virtual o en la física, lo que representa plenamente el concepto de virtualización.
+	Como ya se ha mencionado, un hipervisor es una capa intermedia de software que permite al ordenador anfitrión prestar soporte a varias máquinas virtuales mediante el uso compartido de sus recursos. Cuando se ejecuta una instrucción en el SO invitado, el hipervisor la coje y la ejecuta en el SO anfitrión. En este proceso, el SO no diferencia entre ejecutar procesos en la máquina virtual o en la física, lo que representa plenamente el concepto de virtualización.
 
 	Dentro de los hipervisores~\cite{virt3}, podemos distinguir dos tipos. El primero es el Tipo 1, conocido también como hipervisor nativo o \textit{bare-metal}. Este hipervisor se ejecuta directamente sobre el hardware en lugar de un SO clásico. Todos los hipervisores necesitan algunos elementos del sistema operativo (por ejemplo, el administrador de memoria, el programador de procesos, la pila de entrada o salida [E/S], los controladores de dispositivos, entre otros) para ejecutar las máquinas virtuales. Por tanto, este hipervisor es equivalente a un SO con un poco de información adicional que le permite gestionar los SO invitados. Es muy común encontrarlos en centros de datos, por la eficiencia que supone el ahorrar una capa de software.
 
@@ -36,7 +38,7 @@
 	\label{fig:kvm}
 	\end{figure}
 
-	La configuración de la máquina virtual creada se almacena internamente en un fichero XML, el cual es posible editar manualmente a posteriori si se quiere hacer algún cambio. KVM nos permite disfrutar de las ventajas del software open source: no habrá restricciones en cuanto a integración, como sí puede haberlas si se usa un software propietario como VMware; y es independiente de proveedores. Es posible instalar una GUI\footnote{Graphical User Interface} como virt-manager, que se apoya en la biblioteca libvirt (API de virtualización estándar de Linux), para facilitar su uso.
+	La configuración de la máquina virtual creada se almacena internamente en un fichero XML, el cual es posible editar manualmente a posteriori si se quiere hacer algún cambio. KVM nos permite disfrutar de las ventajas del software open source: no habrá restricciones en cuanto a integración, como sí puede haberlas si se usa un software propietario como VMware; y es independiente de proveedores. Es posible instalar una GUI como virt-manager, que se apoya en la biblioteca libvirt (API de virtualización estándar de Linux), para facilitar su uso.
 
 \subsubsection{VirtualBox}
 	VirtualBox~\cite{vbox} es desarrollado por Oracle, aunque es gratuito y open source al igual que KVM. Es un hipervisor de Tipo 2, por lo que ofrece un rendimiento inferior comparado con un Tipo 1. VirtualBox permite crear y cargar máquinas virtuales de una forma muy sencilla, lo que hace que sea la alternativa elegida por muchos usuarios. Su asistente ofrece algunos valores sugeridos para tipos específicos de máquinas virtuales durante la creación de estas, pero su gestión final se produce en una configuración posterior.
@@ -88,7 +90,7 @@
 
 	\begin{itemize}
 		\item \textbf{Grupos de control o cgroups.} Se encargan de gestionar los recursos del ordenador asignados a un proceso o conjunto de procesos, como pueden ser el número de \textit{slices} de tiempo de CPU asignadas a cada proceso, el límite de memoria a usar por proceso, los dispositivos de bloques de E/S… Es posible estructurar los recursos en jerarquía.
-		\item \textbf{Namespaces.} Permiten aislar procesos entre sí. Los procesos de un contenedor se asignan a un namespace, y el sistema operativo aísla los recursos entre ese namespace y el resto. Hay diferentes tipos de namespace: de PID\footnote{Process Identifier}, que permiten mantener los mismos PIDs en diferentes contenedores; mount, para separar sistemas de ficheros; de red para aislar controladores de red… 
+		\item \textbf{Namespaces.} Permiten aislar procesos entre sí. Los procesos de un contenedor se asignan a un namespace, y el sistema operativo aísla los recursos entre ese namespace y el resto. Hay diferentes tipos de namespace: de PID, que permiten mantener los mismos PIDs en diferentes contenedores; mount, para separar sistemas de ficheros; de red para aislar controladores de red… 
 	\end{itemize}
 
 	Los contenedores, por tanto, suponen una virtualización más ligera: usan menos recursos que las máquinas virtuales, además de proporcionar mayor flexibilidad y rapidez de arranque y despliegue. Esto último se debe a que, al usar el mismo kernel que el host, sólo están iniciando procesos, algo que es casi instantáneo y que hace muy fluida la ejecución de diferentes máquinas a la vez.
@@ -117,6 +119,7 @@
 	Para crear diferentes contenedores de sistema operativo, se emplean plantillas o templates. Las plantillas proporcionadas en LXC son scripts específicos de un sistema operativo.
 
 	LXC se suele usar junto a LXD. LXD ofrece una interfaz para gestionar contenedores LXC como si fueran máquinas virtuales, proporcionando snapshots y control de imágenes, además de otras funcionalidades que incrementan el potencial de LXC. Una de las ventajas principales de LXC es que es una tecnología sencilla de manejar.
+\clearpage
 
 \subsubsection{Docker}
 	Docker~\cite{docker1} es uno de los proyectos más conocidos y utilizados en este tipo de virtualización. Lejos de ser un sistema operativo como tal, esta plataforma de código abierto hace uso de las funciones de aislamiento de recursos del kernel de Linux para dar lugar a contenedores independientes. Está basada en Linux, pero en los últimos años se ha producido un desarrollo y actualmente también es posible su uso en Windows.
@@ -165,7 +168,7 @@
 	\label{fig:docker-life}
 	\end{figure}
 
-	Como se puede apreciar en la figura, Docker permite gestionar el estado de los contenedores de forma sencilla mediante la CLI\footnote{Command Line Interface}, algunas de sus órdenes más destacadas son:
+	Como se puede apreciar en la figura, Docker permite gestionar el estado de los contenedores de forma sencilla mediante la CLI, algunas de sus órdenes más destacadas son:
 
 \begin{lstlisting}[language=bash]
   $ docker pull #permite descargar una imagen de un repositorio
@@ -188,7 +191,7 @@
 	\centering
 	\includegraphics[width=0.8\textwidth]{../imgs/EdA/LXCvsDocker.jpg}
 	\caption{Docker vs LXC: Estructura}
-	\label{fig:docker-life}
+	\label{figure:LXCvsDocker}
 	\end{figure}
 	\clearpage
 
@@ -395,7 +398,7 @@
 
 	Al presentar las tecnologías de virtualización y aprovisionamiento hablamos de despliegue, que es el hecho de levantar y configurar (por ejemplo, a nivel interconexión de red) las máquinas que van a formar ese escenario virtualizado. Por tanto, si se combina la orquestación de escenario junto con el despliegue, ambas tecnologías IaC, podremos realizar el despliegue automatizado de escenarios de red virtualizados.
 
-\subsubsection{Docker Compose}
+\subsection{Docker Compose}
 	Docker Compose~\cite{orq2} es una herramienta para definir y ejecutar múltiples contenedores Docker de forma simultánea en un mismo host. Utiliza un archivo YAML (normalmente de nombre \texttt{docker-compose.yml}) para configurar los servicios de la aplicación. Luego, con un solo comando, crea e inicia todos los servicios desde su configuración. Si bien en algunos casos se puede decir que es un orquestador, no es del todo comparable a los orquestadores que veremos a continuación (como ECS, Kubernetes, etc) ya que pese a que puede ejecutar varios servicios distintos, no puede manejar autoscaling, downtime etc.
 
 	\begin{figure}[h]
@@ -407,7 +410,7 @@
 
 	El fichero Dockerfile del que hablamos en el apartado \ref{sec:aprov} define como crear la imagen de una aplicación o contenedor, mientras que el fichero \textit{docker-compose.yml} nos permite vincular y configurar estos contenedores en conjunto para construir varios servicios. La forma en que ejecutamos nuestro docker compose es con la instrucción \texttt{docker-compose up}, el cual entrega instrucciones para ejecutar el contenedor según el \textit{docker-compose.yml}.
 
-\subsubsection{Kubernetes}
+\subsection{Kubernetes}
 	Docker Compose nos permite desplegar múltiples contenedores en un mismo host. Es posible que, por motivos de disponibilidad entre otros, quisiéramos tener nuestros contenedores ejecutándose en diferentes hosts. Esto, entre otras cosas (como que los host que alojan estos contenedores estén en la nube), es algo que nos permite Kubernetes.
 
 	Kubernetes~\cite{orq3} es un orquestador open source para aplicaciones que se ejecutan en contenedores de software. La ventaja principal de usar Kubernetes es que facilita enormemente la gestión de los contenedores al encargarse del trabajo duro en el escalamiento, recuperación automática, balanceo de cargas, despliegues y mucho más. 
@@ -442,7 +445,7 @@
 	\label{fig:k8s}
 	\end{figure}
 
-\subsubsection{Terraform}
+\subsection{Terraform}
 	Terraform~\cite{orq4} es una herramienta open-source de codificación declarativa desarrollada por HashiCorp que permite describir la infraestructura de estado final deseada para ejecutar una aplicación en local o en cloud. Esto se hace mediante ficheros de configuración en formato JSON o en la sintaxis de alto nivel HCL (HashiCorp Configuration Language) propuesta por Terraform. 
 
 	Una vez especificado el estado deseado, elabora un plan para alcanzar ese estado final y lo ejecuta para suministrar la infraestructura.
@@ -478,22 +481,54 @@
 	\end{itemize}
 	\clearpage
 
-\subsubsection{Tecnologías de orquestación de proveedores cloud}
-	Las herramientas que se han presentado son muy utilizadas por las funciones que ofrecen y la cantidad de trabajo que facilitan. Es por esto que los principales proveedores cloud cuentan con servicios (ver figura \ref{fig:cloud}) que bien permiten la integración con estas herramientas o que proporcionan funcionalidades muy similares. Se han clasificado estos servicios en dos tipos:
+% WARNING
+% \subsubsection{Tecnologías de orquestación de proveedores cloud}
+% 	Las herramientas que se han presentado son muy utilizadas por las funciones que ofrecen y la cantidad de trabajo que facilitan. Es por esto que los principales proveedores cloud cuentan con servicios (ver figura \ref{fig:cloud}) que bien permiten la integración con estas herramientas o que proporcionan funcionalidades muy similares. Se han clasificado estos servicios en dos tipos:
+%
+% 	\begin{itemize}
+% 		\item \textbf{Servicio declarativo:} permite modelar y configurar los recursos en la nube de una forma sencilla y adaptada para cada proveedor cloud. Este servicio sería una alternativa a Terraform.
+% 		\item \textbf{Servicio Kubernetes:} es un servicio administrado que permite ejecutar Kubernetes de forma sencilla en cada proveedor cloud sin necesidad de instalar, operar ni mantener un plano de control o nodos de Kubernetes propios.
+% 	\end{itemize}
+%
+% 	\begin{figure}[h]
+% 	\centering
+% 	\includegraphics[width=0.8\textwidth]{../imgs/EdA/cloud/Cloud-providers.png}
+% 	\caption{Tecnologías de orquestación ofrecidas por proveedores cloud}
+% 	\label{fig:cloud}
+% 	\end{figure}
+%
+% 	Estas herramientas, al estar integradas en las plataformas cloud, hacen que la orquestación de recursos en la nube sea aún más sencilla ya que se realiza la configuración a través de una interfaz gráfica muy intuitiva.
+%
+% 	Por otro lado, la principal desventaja que presentan radica en que su uso, al contrario que Terraform, conlleva un compromiso con el proveedor cloud que se elija. Es decir, si se decidiese usar Cloudformation de AWS, habría que tener en cuenta que esta herramienta está enfocada a la gestión de recursos exclusivamente en dicha plataforma. Por tanto, si en un momento dado se decidiese migrar a otro proveedor cloud, sería necesaria una modificación completa de todo el código, lo que implicaría una gran inversión de tiempo y recursos, ya que habría que usar otro servicio.
 
-	\begin{itemize}
-		\item \textbf{Servicio declarativo:} permite modelar y configurar los recursos en la nube de una forma sencilla y adaptada para cada proveedor cloud. Este servicio sería una alternativa a Terraform.
-		\item \textbf{Servicio Kubernetes:} es un servicio administrado que permite ejecutar Kubernetes de forma sencilla en cada proveedor cloud sin necesidad de instalar, operar ni mantener un plano de control o nodos de Kubernetes propios.
-	\end{itemize}
+\section{Orquestación en Cloud} \label{sec:orqc}
+    Los proveedores de nube~\cite{cloud1} permiten acceder a servicios informáticos que, de otro modo, habría que gestionar por cuenta propia, tales como infraestructura (redes, bases de datos, servidores, almacenamiento, virtualización…), plataformas (sistemas operativos, middleware o entornos de ejecución) o software como aplicaciones estándares o personalizadas que ofrecen los proveedores de servicios independientes.
 
-	\begin{figure}[h]
-	\centering
-	\includegraphics[width=0.8\textwidth]{../imgs/cloud/Cloud-providers.png}
-	\caption{Tecnologías de orquestación ofrecidas por proveedores cloud}
-	\label{fig:cloud}
-	\end{figure}
+\subsection{Google Cloud}
+    Cuando hablamos de Google Cloud Platform (GCP), estamos ante todas las herramientas de Google disponibles en la nube que hasta ahora se ofrecían por separado. Este conjunto de servicios ofrecen prestaciones muy dispares; desde machine learning hasta Inteligencia artificial pasando por el big data, todo englobado bajo el paraguas del cloud computing.
 
-	Estas herramientas, al estar integradas en las plataformas cloud, hacen que la orquestación de recursos en la nube sea aún más sencilla ya que se realiza la configuración a través de una interfaz gráfica muy intuitiva.
+    \begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{../imgs/EdA/gcloud-logo.png}
+    \caption{Logo de Google Cloud}
+    \label{fig:gcloud}
+    \end{figure}
 
-	Por otro lado, la principal desventaja que presentan radica en que su uso, al contrario que Terraform, conlleva un compromiso con el proveedor cloud que se elija. Es decir, si se decidiese usar Cloudformation de AWS, habría que tener en cuenta que esta herramienta está enfocada a la gestión de recursos exclusivamente en dicha plataforma. Por tanto, si en un momento dado se decidiese migrar a otro proveedor cloud, sería necesaria una modificación completa de todo el código, lo que implicaría una gran inversión de tiempo y recursos, ya que habría que usar otro servicio.
+    A la hora de desplegar escenarios de red virtualizados en la nube, de todos los servicios que ofrece Google Cloud los que más nos interesan son los relacionados con Computing y Networking. De entre estos, los más interesantes se detallan a continuación:
+
+\subsubsection{Compute Engine}
+    Compute Engine~\cite{cloud2} es un servicio de hosting y procesamiento que permite crear y ejecutar máquinas virtuales (también llamadas instancias) en la infraestructura de Google. Las instancias de Compute Engine pueden ejecutar las imágenes públicas de Linux y Windows Server que proporciona Google, así como imágenes personalizadas privadas que es posible crear o importar desde sistemas existentes. También pueden implementar contenedores de Docker.
+
+    Cada interfaz de red de una instancia de Compute Engine está asociada con una subred de una red de VPC única y debe tener una dirección IPv4 interna principal. Una instancia puede comunicarse con instancias en la misma red de nube privada virtual (VPC) mediante la dirección IP interna de la VM. Para la comunicación con Internet, se puede usar una dirección IP externa configurada en la instancia, pero hay que tener en cuenta que de esta forma la instancia quedaría expuesta a Internet. Si no se configura ninguna dirección externa en la instancia, se puede usar Cloud NAT, que permite que ciertos recursos sin direcciones IP externas creen conexiones salientes a Internet. Los recursos externos no pueden acceder directamente a ninguna de las instancias privadas ubicadas tras la pasarela de Cloud NAT, lo que contribuye a que las VPC de Google Cloud permanezcan aisladas y protegidas.
+
+    Una etiqueta o tag es un string de caracteres que se agrega al campo de etiquetas en un recurso, como puede ser una VM. Las etiquetas permiten hacer que las reglas de firewall y las rutas se puedan aplicar a instancias de VM específicas. Una etiqueta de red solo se aplica a las Redes de VPC que se adjuntan directamente a las interfaces de red de la instancia. Es decir, en el caso de conectar dos VPC entre sí, cada VPC solo podrá ver las etiquetas de las VM cuya interfaz de red está asociada a ella. Por lo tanto, en las reglas de FW que limitan el tráfico entre dos VPC, no se puede usar como origen o destino una etiqueta de red, ya que las VPC intercambian las rutas pero no las etiquetas. En ese caso, lo mejor es usar las direcciones IP para aplicar las reglas de FW o rutas a VM específicas.
+
+\subsubsection{VPC}
+    La nube privada virtual (VPC)~\cite{cloud3} de Google Cloud ofrece funcionalidad de red a las instancias de máquinas virtuales (VM) de Compute Engine. Una red de VPC es como una red física que se virtualiza dentro de Google Cloud, compuesta por una lista de subredes virtuales regionales (subredes) en centros de datos, todas conectadas por una red de área extensa global. Las redes de VPC están aisladas de forma lógica unas de otras dentro de Google Cloud.
+
+    Cada red de VPC funciona como un firewall virtual distribuido. Las reglas de firewall permiten controlar qué paquetes pueden trasladarse a qué destinos. Cada red de VPC tiene dos reglas de firewall implícitas que bloquean todas las conexiones entrantes y permiten todas las conexiones salientes. Aunque las reglas de firewall se definen a nivel de red, las conexiones se permiten o deniegan por instancia, lo que permite restringir el intercambio de tráfico en función de la IP o de la etiqueta de una VM. Cada regla de firewall se aplica a la conexión entrante o saliente, pero no a ambas, y permite especificar origen, destino, protocolo, puertos y acción (permitir o denegar). Cuando se permite una conexión a través del firewall en cualquier dirección, también se permite el tráfico de retorno que coincide con esta conexión.
+
+    También es posible definir rutas. Las rutas indican a las instancias de VM y a la red de VPC cómo enviar el tráfico de una instancia a un destino, ya sea dentro de la red o fuera de Google Cloud. Las redes de VPC incluyen algunas rutas generadas por el sistema para enrutar el tráfico entre sus subredes y enviarlo de las instancias aptas a Internet.
+
+    Se pueden conectar dos VPC entre sí. Con el intercambio de tráfico entre redes de VPC, todas las comunicaciones se realizan mediante direcciones IP internas. Según las reglas de firewall, las instancias de VM en cada red de intercambio de tráfico pueden comunicarse entre sí sin usar direcciones IP externas. Cabe destacar que solo las redes de intercambio de tráfico directo pueden comunicarse, no se admite el intercambio de tráfico transitivo. En otras palabras, si la red de VPC N1 intercambia tráfico con las redes N2 y N3, pero estas no están conectadas directamente, la red de VPC N2 no se podrá comunicar con la N3 mediante el intercambio de tráfico entre redes de VPC. Al conectar dos VPC, las reglas de firewall (recordemos que una regla de FW se aplica a nivel de VPC) no se intercambian entre ellas. Además, como ya se ha mencionado, no es posible hacer referencia desde una VPC a etiquetas de la otra, ya que estas tampoco se intercambian.
 
