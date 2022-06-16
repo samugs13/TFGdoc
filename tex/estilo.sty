@@ -10,6 +10,7 @@
 \usepackage[backend=biber,style=numeric,sorting=none]{biblatex} % Para bibliografia 
 \usepackage[figurename=Figura]{caption} % Para cambiar el nombre, posición o estilo del caption de las fotos
 \usepackage{listings} % Para la insercion de codigo en el documento (hace uso de xcolor)
+\usepackage{appendix} % Para los anexos
 
 % Para la portada
 \usepackage{chngpage}
@@ -20,6 +21,7 @@
 \definecolor{orange}{HTML}{ff6600}
 
 % Estilo de tablas
+\usepackage{multirow} % Para combinar celdas verticalmente
 \setlength\extrarowheight{2pt}
 \definecolor{oranget}{HTML}{f18e00}
 \definecolor{oranger}{HTML}{ffddcc}
@@ -82,3 +84,8 @@
 \renewcommand{\headrule}{\hbox to\headwidth{\color{orange}\leaders\hrule height \headrulewidth\hfill}} % Color de la barra de la cabecera
 \renewcommand{\lstlistingname}{Código} % Para cambiar el caption de los codigos
 \bibliography{docs/refs} % Archivo .bib 
+
+% Estilo de anexos 
+\renewcommand{\appendixname}{Anexos}
+\renewcommand{\appendixtocname}{Anexos}
+\renewcommand{\appendixpagename}{Anexos}
