@@ -1,3 +1,70 @@
 % Diseño
 \chapter{Diseño} \label{ch:dis}
-\section{} \label{sec:}
+  En este capítulo se van a detallar las tecnologías a utilizar, así como las etapas a seguir para la implementación de los escenarios de red. Para ello, se parte de un análisis de los requisitos necesarios a cumplir por el sistema tras el cual se tomarán las decisiones de diseño correspondientes.
+
+\section{Requisitos y decisiones de diseño} \label{sec:req}
+  En primer lugar, se han identificado una serie de requisitos que debe cumplir el sistema. Estos se han recogido en la tabla que se muestra a continuación:
+
+  \begin{table}[h]
+    \begin{center}
+      \begin{tabular}{ | w{c}{1cm} | m{14cm} | }
+        \hline\rowcolor{oranget} \textbf{Id} & \textbf{Requisito} \\ \hline
+        RD1 & Los escenarios han de estar disponibles en cualquier momento y lugar para su utilización y han de poderse ejecutar en cualquier tipo de sistema. \\ \hline\rowcolor{oranger}
+        RD2 & El entorno debe de ser seguro, de forma que no se pongan en riesgo recursos sensibles. \\ \hline
+        RD3 & Debe ser escalable, tener un tiempo de arranque reducido y ocupar el menor espacio posible. \\ \hline\rowcolor{oranger}
+        RD4 & Ha de ser portable, y debe permitir la configuración de los escenarios para adaptarse a nuevas tendencias o situaciones.  \\ \hline
+        RD5 & Es deseable que tanto el despliegue como la conexión y aprovisionamiento sea centralizada. Es decir, que todas las configuraciones que requiera el escenario, tanto las que se lleven a cabo en este trabajo como las futuras (configuración software), se puedan realizar desde el entorno que se va a proporcionar. \\ \hline
+      \end{tabular}
+      \caption{Requisitos de diseño}
+      \label{tab:objs}
+    \end{center}
+  \end{table}
+
+  Tras el análisis de tecnologías realizado en el capítulo \ref{ch:estado}, podemos determinar aquellas que se adecuan mejor a los requisitos arriba expuestos. Teniendo en cuenta los requisitos \textit{RD1}, \textit{RD2} y \textit{RD3}, se ha decidido que lo mejor es realizar un despliegue en Cloud, para lo cual se ha seleccionado la plataforma Google Cloud Platform. Para orquestar el despliegue de la infraestructura en la nube, cumpliendo con los requisitos \textit{RD3}, \textit{RD4}, y \textit{RD5} se usará Terraform. Finalmente, para la virtualización de los sistemas, en un principio se hará uso de las máquinas virtuales que proporciona Google Cloud. No obstante, en el caso de ser necesarios algunos servicios o funcionalidades concretas, se correrán contenedores Docker dentro de dichas máquinas virtuales, que como se comentó en el estado del arte permiten virtualizar gran cantidad de software de una manera muy sencilla, eficiente, ocupando poco espacio y con un tiempo de arranque muy reducido.
+
+\section{Solución propuesta} \label{sec:sol}
+  La solución que se propone es un despliegue en Google Cloud orquestado por Terraform y empleando la tecnología de virtualización Docker.
+
+  El hecho de realizar un despliegue en cloud permite que la infraestructura utilizada para el entrenamiento en ciberseguridad sea completamente independiente de la de la empresa o equipo de quien la usa, lo que proporciona seguridad a las organizaciones que lo usen. 
+
+  Además, esta infraestructura será accesible por cualquiera que tenga autorización, sin importar donde se encuentre. No conlleva costes de operación ni mantenimiento, pues Google se encarga tanto del hardware donde se virtualizan los escenarios como de mantener actualizado el software. Por último es escalable, según se vayan necesitando recursos como almacenamiento o memoria se van asignando sin necesidad de interacción humana, y se paga sólo por los recursos que se usan, lo que supone un gran ahorro en costes.
+
+  A la hora de orquestar el despliegue, Terraform proporciona muchas ventajas. En primer lugar, permite tener en ficheros con una sintaxis muy sencilla la definición de toda la infraestructura. Sólo basta con ejecutar la orden \texttt{terraform apply} para que se despliegue todo de forma automática en la nube. Además los ficheros que describen el estado final deseado de la infraestructura permiten a su vez el uso de ficheros de variables para parametrizar el despliegue y que la configuración sea más modular y sencilla. También permite que los escenarios sean portables, ya que puede ser utilizado con cualquier proveedor de servicios de cloud. De esta forma, si se decide migrar la infraestructura a otro proveedor por cualquier motivo, no habría que reescribir todo el código, como ocurriría con el resto de  herramientas de IaC diseñadas para funcionar con un único proveedor de cloud. Otro aspecto importante es que con cada cambio que se realice en el entorno, la configuración actual se sustituye por una nueva que aplica el cambio y se vuelve a suministrar la infraestructura, lo que se conoce como infraestructura mutable y que facilita su uso junto a un software de control de versiones como GitHub.
+
+  Por último, en cuanto al aprovisionamiento, Terraform permite seleccionar a la hora de definir una instancia la imagen base de esta, bien sea una imagen de las que proporciona Google o una imagen personalizada que hayamos construido y alojado en el propio Google Cloud. Además, en caso de ser necesarias configuraciones extra, Terraform también permite especificar scripts de inicio personalizados que se ejecutan cuando esta se arranca. Estos scripts pueden estar escritos en cualquier lenguaje, y pueden servir para realizar multitud de configuraciones como instalación de paquetes o modificación de ficheros. Un añadido muy interesante que proporciona Terraform es la función \texttt{templatefile}, que recibe como parámetro el path a un script y permite usarlo como una plantilla donde se especifican las variables deseadas. Es mejor verlo en un ejemplo práctico. Imaginemos que tenemos el fichero \texttt{docker.tftpl} con el siguiente contenido: \\
+
+  \begin{lstlisting}[language=Bash, caption=Contenido del fichero docker.tftpl]
+  #!/bin/bash
+  docker run ${image}\end{lstlisting}
+
+  A la hora de definir la instancia en el fichero de configuración de Terraform, en el campo correspondiente indicamos qué valor queremos que tome esa variable, que como vemos se define con la sintaxis \$\{...\}: \\
+  
+  \begin{lstlisting}[language=Bash, caption=Extracto de fichero de configuración .tf]
+  [...] #Inicio de la definicion de la instancia
+   metadata_startup_script=templatefile("templates/docker.tftpl", { image = "nginx" })
+  [...] #Fin de la definicion de la instancia\end{lstlisting}
+
+  De esta forma, cuando la instancia se arranque y ejecute el fichero, lo hará sustituyendo “nginx” en el lugar de la variable \texttt{image}. Es importante la extensión \texttt{.tftpl} para que Terraform interprete correctamente las variables. En el caso de no ser necesaria la parametrización del script se pueden enviar directamente scripts en Bash, Python o el lenguaje que se desee haciendo uso de la función \texttt{file}, donde solo sería necesario especificar el path al archivo, a diferencia de la función \texttt{templatefile} que necesita también las variables.
+
+  Como se puede observar, estas funciones proporcionan una gran flexibilidad a la hora de configurar las instancias. Y lo más importante, permiten tener un directorio con archivos de configuración y acceder a ellos desde el mismo fichero donde se configura el despliegue de la infraestructura, de forma que se puede manejar todo de forma centralizada.
+
+\section{Etapas de diseño} \label{sec:etp}
+Una vez propuesta la solución, se establecen una serie de etapas de diseño en las que se divide el proceso, siguiendo un orden secuencial que se muestra a continuación:
+
+
+  \begin{table}[h]
+    \begin{center}
+      \begin{tabular}{ | w{c}{1cm} | m{14cm} | }
+        \hline\rowcolor{oranget} \textbf{Id} & \textbf{Etapa de diseño} \\ \hline
+        ED1 & Definición de los escenarios a implementar. \\ \hline\rowcolor{oranger}
+        ED2 & Análisis de los escenarios, vector de ataque y conexiones necesarias entre los elementos que lo componen. \\ \hline
+        ED3 & Debe ser escalable, tener un tiempo de arranque reducido y ocupar el menor espacio posible. \\ \hline\rowcolor{oranger}
+        ED4 & Desarrollo de los ficheros Terraform que permiten la implementación de los escenarios definidos en la nube según el estudio realizado.  \\ \hline
+        ED5 & Creación de herramientas que permitan arrancar contenedores Docker, así como realizar algunas pequeñas configuraciones en las instancias y que sirvan como base para la futura configuración de los escenarios. \\ \hline
+      \end{tabular}
+      \caption{Etapas de diseño}
+      \label{tab:objs}
+    \end{center}
+  \end{table}
+
+  Como resultado de este proceso se obtendrán escenarios de red virtualizados en la nube con todos los elementos y configuraciones necesarias para generar a partir de ellos ejercicios para la formación y entrenamiento en el campo de la ciberseguridad.
