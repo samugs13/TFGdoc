@@ -21,15 +21,14 @@
 	% TOC
 	\tableofcontents
 	\afterpage{\blankpage}
+	% Figuras
+	\listoffigures
+	\afterpage{\blankpage}
+	\addcontentsline{toc}{chapter}{\listfigurename}
     % Tablas
     \listoftables
     \afterpage{\blankpage}
     \addcontentsline{toc}{chapter}{\listtablename}
-    % Figuras
-	\listoffigures
-	\afterpage{\blankpage}
-	\addcontentsline{toc}{chapter}{\listfigurename}
-
 	%-----------------------------------------------------------------------------------
 	% Contenido
 	\input{tex/c1_intro}
