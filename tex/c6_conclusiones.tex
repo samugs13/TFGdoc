@@ -1,0 +1,9 @@
+% Conclusiones y llíneas futuras
+\chapter{Conclusiones y líneas futuras} \label{ch:con}
+  Este capítulo expone las conclusiones extraidas a raíz de la realización del proyecto y las líneas futuras en las que se puede seguir trabajando.
+
+\section{Conclusiones} \label{sec:concs}
+  En el último año se ha experimentado un más que notable aumento del número de ciberataques y sofisticación de las amenazas conocidas. Además, En la actualidad existe una gran demanda de perfiles de ciberseguridad. Este trabajo surge con la idea de hacer accesible y sencilla la práctica de ejerccicios de tipo Red Team para la formación en ejercicios de seguridad. El hecho de desplegar los escenarios en la nube con Terraform permite que cualquiera con permiso obtenga en cuestion de segundos un escenario funcional donde practicar y formarse, independientemente de donde se encuentre y el sistema que emplee.
+
+\section{Líneas futuras} \label{sec:fut}
+  Las líneas a seguir serían relacionadas con la configuración software de los elementos de los escenarios, de forma que se obtengan escenarios funcionales en los que practicar tests de intrusión específicos. Los ficheros que se proporcionan en el directorio \texttt{template-files} permiten aprovisionar las máquinas con imágenes Docker vulnerables, como las disponibles en el proyecto Vulhub. De esta forma, es posible crear servicios con vulnerabilidades conocidas de forma personalizada mediante un Dockerfile, alojarlas en DockerHub, y luego pasárselas como argumento a la instancia de Google Cloud a la hora de construirla, teniendo así un entorno funcional en el que practicar ejercicios de Red Team. De igual forma, para los sistemas operativos base (como Kali Linux en el caso del atacante) se pueden crear imágenes en Google Cloud a partir de la ISO correspondiente y desplegar la instancia usando esa imagen.
