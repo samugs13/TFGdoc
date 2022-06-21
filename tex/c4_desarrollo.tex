@@ -120,10 +120,10 @@ En este capítulo se detalla el desarrollo del proyecto siguiendo las etapas de 
 
     \item Las reglas de la tabla tienen asignada una prioridad mayor que aquellas reglas que define Google Cloud por defecto. Por tanto, todo el tráfico de entrada a cualquiera de las VPCs que no aparezca definido en la tabla será rechazado. Además, en la tabla sólo se muestran las reglas custom que ha sido necesario crear, por lo que aunque no aparezca, es efectiva la regla por defecto de Google Cloud que permite el tráfico saliente desde cualquier instancia hacia cualquier destino usando cualquier protocolo por cualquier puerto.
 
-    \item A la hora de especificar los orígenes y destinos en Terraform, se hace una referencia al objeto. Es decir, no se especifica como origen un string con el rango de IPs de una subred, si no que se hace referencia al rango de IP que tenga asignada la LAN en ese momento, de forma que si esas IP cambian, no es necesario cambiar la definición de la regla. Esto se puede ver con más detalle en el Anexo \ref{sec:anxE}.
+    \item A la hora de especificar los orígenes y destinos en Terraform, se hace una referencia al objeto. Es decir, no se especifica como origen un string con el rango de IPs de una subred, si no que se hace referencia al rango de IP que tenga asignada la LAN en ese momento, de forma que si esas IP cambian, no es necesario cambiar la definición de la regla. Esto se puede ver con más detalle en el Anexo \ref{anx:soI}.
   \end{itemize}
 
-  En cuanto al aprovisionamiento, la idea en este escenario sería crear imágenes en Google Cloud a partir de una ISO ya existente, como por ejemplo una imagen basada en Kali Linux para el atacante, o imágenes Windows de usuario para los empleados, ya que las imágenes Windows disponibles en Google Cloud son de Windows Server. Estas imágenes personalizadas se almacenarían en Google Cloud y se podría pasar como parámetro a la instancia a la hora de construirla, como también se puede ver en el Anexo \ref{sec:anxA}.
+  En cuanto al aprovisionamiento, la idea en este escenario sería crear imágenes en Google Cloud a partir de una ISO ya existente, como por ejemplo una imagen basada en Kali Linux para el atacante, o imágenes Windows de usuario para los empleados, ya que las imágenes Windows disponibles en Google Cloud son de Windows Server. Estas imágenes personalizadas se almacenarían en Google Cloud y se podría pasar como parámetro a la instancia a la hora de construirla, como también se puede ver en el Anexo \ref{anx:soI}.
 
   \clearpage
   \begin{figure}[h]

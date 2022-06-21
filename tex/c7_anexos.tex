@@ -7,7 +7,11 @@
 \fancyhead[LO]{\small ANEXOS}
 \fancyhead[RE]{\small ANEXOS}
 
-\chapter{Ficheros de configuración del escenario Smart Office 1} \label{sec:anxA}
+\chapter{Aspectos éticos, sociales y económicos}
+
+\chapter{Presupuesto económico}
+
+\chapter{Ficheros de configuración del escenario Smart Office 1} \label{anx:soI}
   Este anexo incluye todos los ficheros empleados para la configuración de la infrestructura del escenario Smart Office 1. El fichero main.tf contiene configuraciones generales, como son la configuración del provider de google, los peerings/VPN entre las VPC, o las reglas de firewall que controlan el tráfico que se intercambia entre las instancias. Adicionalmente, a fin de simplificar la lectura del código, hay un fichero .tf por cada una de las VPC, que contiene el código correspondiente a los elementos de red que la componen. Finalmente, en los ficheros variables.tf y terraform.tfvars se encuentran definidas las variables que se emplean en el resto del código.
 
 \section*{main.tf} 
@@ -27,7 +31,7 @@
 \section*{variables.tf}
 \lstinputlisting[language=Bash]{../../daerv/network-scenarios/Smart-Office-1/variables.tf}
 
-\chapter{Ficheros de configuración del escenario Smart Office 2} \label{sec:anxB}
+\chapter{Ficheros de configuración del escenario Smart Office 2} \label{anx:soII}
   Este anexo incluye todos los ficheros empleados para la configuración de la infrestructura del escenario Smart Office 2. El fichero main.tf contiene configuraciones generales, como son la configuración del provider de google, los peerings/VPN entre las VPC, o las reglas de firewall que controlan el tráfico que se intercambia entre las instancias. Adicionalmente, a fin de simplificar la lectura del código, hay un fichero .tf por cada una de las VPC, que contiene el código correspondiente a los elementos de red que la componen. Finalmente, en los ficheros variables.tf y terraform.tfvars se encuentran definidas las variables que se emplean en el resto del código.
 
 \section*{main.tf} 
@@ -45,7 +49,7 @@
 \section*{variables.tf}
 \lstinputlisting[language=Bash]{../../daerv/network-scenarios/Smart-Office-2/variables.tf}
 
-\chapter{Ficheros de configuración del escenario Smart Home} \label{sec:anxC}
+\chapter{Ficheros de configuración del escenario Smart Home} \label{anx:sh}
   Este anexo incluye todos los ficheros empleados para la configuración de la infrestructura del escenario Smart Home. El fichero main.tf contiene configuraciones generales, como son la configuración del provider de google, los peerings/VPN entre las VPC, o las reglas de firewall que controlan el tráfico que se intercambia entre las instancias. Adicionalmente, a fin de simplificar la lectura del código, hay un fichero .tf por cada una de las VPC, que contiene el código correspondiente a los elementos de red que la componen. Finalmente, en los ficheros variables.tf y terraform.tfvars se encuentran definidas las variables que se emplean en el resto del código.
 
 \section*{main.tf} 
@@ -60,7 +64,7 @@
 \section*{variables.tf}
 \lstinputlisting[language=Bash]{../../daerv/network-scenarios/Smart-Home/variables.tf}
 
-\chapter{Ficheros de configuración del escenario SCADA} \label{sec:anxD}
+\chapter{Ficheros de configuración del escenario SCADA} \label{anx:scada}
   Este anexo incluye todos los ficheros empleados para la configuración de la infrestructura del escenario SCADA. El fichero main.tf contiene configuraciones generales, como son la configuración del provider de google, los peerings/VPN entre las VPC, o las reglas de firewall que controlan el tráfico que se intercambia entre las instancias. Adicionalmente, a fin de simplificar la lectura del código, hay un fichero .tf por cada una de las VPC, que contiene el código correspondiente a los elementos de red que la componen. Finalmente, en los ficheros variables.tf y terraform.tfvars se encuentran definidas las variables que se emplean en el resto del código.
 
 \section*{main.tf} 
@@ -72,7 +76,7 @@
 \section*{variables.tf}
 \lstinputlisting[language=Bash]{../../daerv/network-scenarios/SCADA/variables.tf}
 
-\chapter{Ficheros de aprovisionamiento} \label{sec:anxE}
+\chapter{Ficheros de aprovisionamiento} \label{anx:aprov}
   Este anexo incluye todos los ficheros empleados para la configuración y aprovisionamiento de las instancias de Compute Engine. El fichero docker-provisioning.tftpl permite instalar Docker en las máquinas Linux en función del sistema operativo, y posteriormente arrancar un contenedor especificando los parámetros 'argumentos', 'imagen' y 'tag'. El fichero proxy-config.tftpl permite configurar una instancia como proxy de acceso a internet, de forma que las instancias que no tengan conexión a internet pueden ser aprovisionadas accediendo a través de ella, haciendo uso del fichero docker-proxy-provisioning.tftpl.
 
 \section*{docker-provisioning.tftpl} 
