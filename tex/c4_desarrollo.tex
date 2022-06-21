@@ -17,7 +17,7 @@ En este capítulo se detalla el desarrollo del proyecto siguiendo las etapas de 
   Para poder realizar peticiones desde Terraform a la API de GCP, también es necesario autenticarse para así probar que somos quien están realizando esas peticiones. Hay varias formas de realizar esta autenticación. Una de ellas es mediante las Cuentas de Servicio de Google Cloud, para la cual hay que seguir los siguientes pasos:
 
   \begin{enumerate}
-    \item En el apartado de Cuentas de Servicio de la consola de Google Cloud debemos elegir una cuenta existente, o crear una nueva. A la hora de crearla hay que tener en cuenta que es necesario asignar permisos de edición.
+    \item En el apartado de Cuentas de Servicio~\cite{des2} de la consola de Google Cloud debemos elegir una cuenta existente, o crear una nueva. A la hora de crearla hay que tener en cuenta que es necesario asignar permisos de edición.
     \item En la sección de claves, debemos generar una clave y descargarla en formato JSON, ponerle un nombre del que nos vayamos a acordar y almacenarla en un lugar seguro. 
     \item Para proporcionarle la clave descargada a Terraform, lo haremos mediante la variable de entorno \texttt{GOOGLE\_APPLICATION\_CREDENTIALS}, asignándole como valor el de la ruta al archivo con la clave ejecutando el siguiente comando:
 
@@ -286,6 +286,7 @@ En este capítulo se detalla el desarrollo del proyecto siguiendo las etapas de 
 
 \subsection{SCADA} \label{sec:sh}
 \subsubsection{Descripción}
+  SCADA es un sistema que monitorea y controla procesos industriales de infraestructura, basados en instalaciones físicas. Está integrado por un conjunto de elementos y dispositivos con hardware y software. 
 
   \begin{figure}[h]
   \centering
