@@ -33,20 +33,20 @@
 
   Por último, en cuanto al aprovisionamiento, Terraform permite seleccionar a la hora de definir una instancia la imagen base de esta, bien sea una imagen de las que proporciona Google o una imagen personalizada que hayamos construido y alojado en el propio Google Cloud. Además, en caso de ser necesarias configuraciones extra, Terraform también permite especificar scripts de inicio personalizados que se ejecutan cuando esta se arranca. Estos scripts pueden estar escritos en cualquier lenguaje, y pueden servir para realizar multitud de configuraciones como instalación de paquetes o modificación de ficheros. Un añadido muy interesante que proporciona Terraform es la función \texttt{templatefile}, que recibe como parámetro el path a un script y permite usarlo como una plantilla donde se especifican las variables deseadas. Es mejor verlo en un ejemplo práctico. Imaginemos que tenemos el fichero \texttt{docker.tftpl} con el siguiente contenido: \\
 
-  \begin{lstlisting}[language=Bash, caption=Contenido del fichero docker.tftpl]
+  \begin{lstlisting}[language=Bash, caption=Contenido del fichero \texttt{docker.tftpl}]
   #!/bin/bash
   docker run ${image}\end{lstlisting}
 
   A la hora de definir la instancia en el fichero de configuración de Terraform, en el campo correspondiente indicamos qué valor queremos que tome esa variable, que como vemos se define con la sintaxis \$\{...\}: \\
   
-  \begin{lstlisting}[language=Bash, caption=Extracto de fichero de configuración .tf]
+  \begin{lstlisting}[language=Bash, caption=Extracto de fichero de configuración \texttt{.tf}]
   [...] #Inicio de la definicion de la instancia
    metadata_startup_script=templatefile("templates/docker.tftpl", { image = "nginx" })
   [...] #Fin de la definicion de la instancia\end{lstlisting}
 
-  De esta forma, cuando la instancia se arranque y ejecute el fichero, lo hará sustituyendo “nginx” en el lugar de la variable \texttt{image}. Es importante la extensión \texttt{.tftpl} para que Terraform interprete correctamente las variables. En el caso de no ser necesaria la parametrización del script se pueden enviar directamente scripts en Bash, Python o el lenguaje que se desee haciendo uso de la función \texttt{file}, donde solo sería necesario especificar el path al archivo, a diferencia de la función \texttt{templatefile} que necesita también las variables.
+  De esta forma, cuando la instancia se arranque y ejecute el fichero, lo hará sustituyendo “nginx” en el lugar de la variable \texttt{image}. Es importante la extensión \texttt{.tftpl} para que Terraform interprete correctamente las variables. En el caso de no ser necesaria la parametrización del script, se pueden enviar directamente scripts en Bash, Python o el lenguaje que se desee haciendo uso de la función \texttt{file}, donde solo sería necesario especificar el path al archivo, a diferencia de la función \texttt{templatefile} que necesita también el valor que han de tomar las variables.
 
-  Como se puede observar, estas funciones proporcionan una gran flexibilidad a la hora de configurar las instancias. Y lo más importante, permiten tener un directorio con archivos de configuración y acceder a ellos desde el mismo fichero donde se configura el despliegue de la infraestructura, de forma que se puede manejar todo de forma centralizada.
+  Como se puede observar, estas funciones proporcionan una gran flexibilidad y libertad a la hora de configurar las instancias. Y lo más importante, permiten tener un directorio con archivos de configuración y acceder a ellos desde el fichero donde se configura el despliegue de la infraestructura, de forma que se puede manejar todo de forma centralizada.
 
 \section{Etapas de diseño} \label{sec:etp}
 Una vez propuesta la solución, se establecen una serie de etapas de diseño en las que se divide el proceso, siguiendo un orden secuencial que se muestra a continuación:
@@ -58,9 +58,8 @@ Una vez propuesta la solución, se establecen una serie de etapas de diseño en 
         \hline\rowcolor{oranget} \textbf{Id} & \textbf{Etapa de diseño} \\ \hline
         ED1 & Definición de los escenarios a implementar. \\ \hline\rowcolor{oranger}
         ED2 & Análisis de los escenarios, vector de ataque y conexiones necesarias entre los elementos que lo componen. \\ \hline
-        ED3 & Debe ser escalable, tener un tiempo de arranque reducido y ocupar el menor espacio posible. \\ \hline\rowcolor{oranger}
-        ED4 & Desarrollo de los ficheros Terraform que permiten la implementación de los escenarios definidos en la nube según el estudio realizado.  \\ \hline
-        ED5 & Creación de herramientas que permitan arrancar contenedores Docker, así como realizar algunas pequeñas configuraciones en las instancias y que sirvan como base para la futura configuración de los escenarios. \\ \hline
+        ED3 & Desarrollo de los ficheros Terraform que permiten la implementación de los escenarios definidos en la nube según el estudio realizado.  \\ \hline\rowcolor{oranger}
+        ED4 & Creación de herramientas que permitan arrancar contenedores Docker, así como realizar algunas pequeñas configuraciones en las instancias y que sirvan como base para la futura configuración de los escenarios. \\ \hline
       \end{tabular}
       \caption{Etapas de diseño}
       \label{tab:etps}
