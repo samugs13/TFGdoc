@@ -286,7 +286,9 @@ En este capítulo se detalla el desarrollo del proyecto siguiendo las etapas de 
 
 \subsection{SCADA} \label{sec:sh}
 \subsubsection{Descripción}
-  SCADA es un sistema que monitorea y controla procesos industriales de infraestructura, basados en instalaciones físicas. Está integrado por un conjunto de elementos y dispositivos con hardware y software. 
+  El sistema SCADA es una herramienta de automatización y control industrial utilizada en los procesos productivos que puede controlar, supervisar, recopilar datos, analizar datos y generar informes a distancia mediante una aplicación informática. Su principal función es la de evaluar los datos con el propósito de subsanar posibles errores. Los sistemas SCADA son cruciales para las empresas industriales, ya que ayudan a mantener la eficiencia, procesar los datos para tomar decisiones más inteligentes y comunicar los problemas del sistema para reducir el tiempo de inactividad.
+
+  Este escenario resulta de la agrupación de aplicaciones informáticas instaladas en un ordenador denominado Máster o MTU, destinado al control automático de una actividad productiva a distancia que está interconectada con otros instrumentos llamados de campo como son los autómatas programables (PLC) y las unidades terminales remotas (RTU). El HMI es la interfaz que conecta al hombre con la maquina presentando los datos del proceso ante el operario mediante un sistema de monitoreo. Además, controla la acción a desarrollar a través de una pantalla.
 
   \begin{figure}[h]
   \centering
@@ -294,8 +296,9 @@ En este capítulo se detalla el desarrollo del proyecto siguiendo las etapas de 
   \caption{Topología del escenario SCADA}
   \label{fig:scada-t}
   \end{figure}
+  
+  En la zona DMZ de la subred IT se encuentra un servidor web público que corre un Nginx desactualizado vulnerable a \textit{integer overflow} (CVE-2017-7529) y que permitiría al atacante recopilar información para realizar un movimiento lateral. Una vez dentro de la red IT, el objetivo del atacante es llegar al HMI, que es el punto clave puesto que es quien habla con las MTU, quienes a su vez pasan los mensajes a las RTU. De esta forma, el atacante podría robar datos del SCADA server omandar comandos para alterar el funcionamiento de los sistemas finales. La comunicación entre los equipos del bus (que no son atacables ya que no tienen conexión a internet ni son accesibles) se realiza mediante protocolos como IEC 60870-5-104, Modbus o DNP3. Cabe mencionar que existen imágenes Docker que permiten simular los protocolos Modbus y DNP3, mientras que para IEC sería necesaria una VM Windows.
 
-  \clearpage
 \subsubsection{Implementación}
   El escenario SCADA consta de una única VPC, en la que se pueden diferenciar dos grandes partes, la parte superior sería la parte IT (corporativa) y la inferior la parte OT (operativa). La VPC está segmentada en varias subredes: \textit{internet-dmz}, \textit{enterprise-lan}, y \textit{operation-dmz} forman la parte correspondiente a la parte IT y \text-it{ot-lan} simula la parte OT. 
 
