@@ -21,15 +21,14 @@ En este capítulo se detalla el desarrollo del proyecto siguiendo las etapas de 
     \item En la sección de claves, debemos generar una clave y descargarla en formato JSON, ponerle un nombre del que nos vayamos a acordar y almacenarla en un lugar seguro. 
     \item Para proporcionarle la clave descargada a Terraform, lo haremos mediante la variable de entorno \texttt{GOOGLE\_APPLICATION\_CREDENTIALS}, asignándole como valor el de la ruta al archivo con la clave ejecutando el siguiente comando:
 
-      \begin{lstlisting}[language=Bash]
-	export GOOGLE\_APPLICATION\_CREDENTIALS=\{\{path\}\}\end{lstlisting}
+      \hfil\texttt{export GOOGLE\_APPLICATION\_CREDENTIALS=\{\{path\}\}}
 
-      Para que las credenciales se guarden entre sesiones, es necesario añadir esta línea a un fichero de inicio como \texttt{bash\_profile} o \texttt{bashrc}. Una opción alternativa a la variable de entorno sería proporcionar a Terraform el path a la clave en la configuración del provider, dentro del fichero \texttt{main.tf}.
+    Para que las credenciales se guarden entre sesiones, es necesario añadir esta línea a un fichero de inicio como \texttt{bash\_profile} o \texttt{bashrc}. Una opción alternativa a la variable de entorno sería proporcionar a Terraform el path a la clave en la configuración del provider, dentro del fichero \texttt{main.tf}.
   \end{enumerate}
 
   Por último, en el fichero \texttt{.tf} que va a contener todo el código necesario para alcanzar el estado necesario de nuestra infrestructura, hay que configurar el provider de Google. Para ello, en dicho fichero, que normalmente se llama \texttt{main.tf} añadiríamos el código mostrado en la parte inferior, y ejecutaríamos la instrucción \texttt{terraform init} en el mismo directorio donde se encuentra el fichero para que todos e configure correctamente. 
 
-  \begin{lstlisting}[language=Bash]
+  \begin{lstlisting}[language=Bash, caption=Configuración del provider de Google en el fichero \texttt{main.tf}]
   provider "google" {
     project = var.project_id
     region  = var.region
